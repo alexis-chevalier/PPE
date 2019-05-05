@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/frame/JFrame_RapportVisite.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/table/CTableDepartement.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/TypePraticien.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/table/CTableRapportVisite.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/frame/JFrame_Erreur.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/table/CTableVisiteur.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/entites/Visiteur.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/table/CTableDate.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/frame/JFrame_Ajouter.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/entites/ActiviteCompl.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/persistance/CListeRapportVisitePersistante.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/persistance/ListeRapportVisite.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/entites/Praticien.java</file>
+            <file>file:/C:/Users/Alexis/Documents/NetBeansProjects/PPE/src/metier/CMetierRapportVisite.java</file>
+        </group>
+    </open-files>
+</project-private>
