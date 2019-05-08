@@ -333,8 +333,8 @@ public class JFrame_Ajouter extends javax.swing.JFrame {
         Visiteur visiteur = new Visiteur(this.GetVisiteurSelctionner());
         Praticien praticien = new Praticien(1);
         RapportVisite rapport = new RapportVisite(numero, date, bilan, motif, visiteur, praticien);
-
         listeRapport.InsererRapport(rapport);
+        JOptionPane.showMessageDialog(null, "Rapport de visite ajouté", "Rapport ajouter", JOptionPane.INFORMATION_MESSAGE, null);
     }
 
     /**
