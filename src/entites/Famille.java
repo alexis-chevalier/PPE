@@ -1,24 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entites;
 
-class Famille {
-    private String codeFamille;
-    private String libelleFamille;
-
-    public String getCode() {
-        return codeFamille;
-    }
-
-    public void setCode(String code) {
-        this.codeFamille = code;
-    }
-
-    public String getLibelle() {
-        return libelleFamille;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelleFamille = libelle;
-    }
+/**
+ *
+ * @author admin
+ */
+public class Famille {
     
+    public int famCode;
+    public String famLibelle;
     
+    public Famille(){
+}
+    public Famille(int code, String libelle){
+        this.setFamCode(code);
+        this.setFamLibelle(libelle);
+    }
+
+    public int getFamCode() {
+        return famCode;
+    }
+
+    public void setFamCode(int famCode) {
+        this.famCode = famCode;
+    }
+
+    public String getFamLibelle() {
+        return famLibelle;
+    }
+
+    public void setFamLibelle(String famLibelle) {
+        this.famLibelle = famLibelle;
+    }
+    @Override
+    public String toString() {
+        return "" + this.famCode + " " + this.famLibelle ;
+    }
 }

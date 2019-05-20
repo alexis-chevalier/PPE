@@ -1,15 +1,26 @@
 package entites;
+import java.util.List;
+import Services.TableFrais;
 
-
-class FicheFrais {
-  public int mois;
-
-  public float nbHorsClassif;
-
-  public float montantHorsClassif;
-
+public class FicheFrais {
+    
+  protected int mois;
+  protected int nbHorsClassif;
+  protected float montantHorsClassif;
+  Visiteur visiteur;
+  TableFrais listefrais;
+  
+  public FicheFrais(int mois, int nbHorsClassif, float montantHorsClassif, Visiteur visiteur, List<Frais>listeFrais){
+        setMois(mois);
+        setNbHorsClassif(nbHorsClassif);
+        setMontantHorsClassif(montantHorsClassif);
+        getVisiteur().getMatricule();
+    }
+  
+  public FicheFrais(int mois) {
+        setMois(mois);
+    }
   private Frais frais;
-  private Visiteur visiteur;
 
     public int getMois() {
         return mois;
@@ -19,11 +30,11 @@ class FicheFrais {
         this.mois = mois;
     }
 
-    public float getNbHorsClassif() {
+    public int getNbHorsClassif() {
         return nbHorsClassif;
     }
 
-    public void setNbHorsClassif(float nbHorsClassif) {
+    public void setNbHorsClassif(int nbHorsClassif) {
         this.nbHorsClassif = nbHorsClassif;
     }
 
@@ -34,7 +45,14 @@ class FicheFrais {
     public void setMontantHorsClassif(float montantHorsClassif) {
         this.montantHorsClassif = montantHorsClassif;
     }
-  
-  
+
+    public Visiteur getVisiteur() {
+        return visiteur;
+    }
+    
+    @Override
+    public String toString() {
+        return "" + this.getVisiteur().getMatricule() + " " + this.mois + " " + this.nbHorsClassif + " " + this.montantHorsClassif;
+    }
 
 }

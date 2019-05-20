@@ -1,69 +1,91 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package entites;
 
-
-import java.util.ArrayList;
-
+/**
+ *
+ * @author admin
+ */
 public class Medicament {
+
     public int depotLegalMedicament;
     public String nomCommercialMedicament;
-    public ArrayList compositionMedicament;
-    public String effets;
-    public String contreIndic;
-    public float prixEchantillon;
+    public String compositionMedicament;
+    public String effetsMedicament;
+    public String contreIndicMedicament;
+    public Float prixEchantillonMedicament;
     
-    private Constituant constituant;
-    private Famille famille;
-    private Presentation presentation;
-    private TypeIndividu typeIndividu;
-    private RapportVisite rapport;
+     public Medicament() {
+    }
+     
+    public Medicament(int depotLegal, String nomCommercial, String composition, String effets, String contreIndic, float prixEchantillon) {
+        this.setDepotLegalMedicament(depotLegal);
+        this.setNomCommercialMedicament(nomCommercial);
+        this.setCompositionMedicament(composition);
+        this.setEffetsMedicament(effets);
+        this.setContreIndicMedicament(contreIndic);
+        this.setPrixEchantillonMedicament(prixEchantillon);
+        
+    }
 
-    public int getDepotLegal() {
+    public int getDepotLegalMedicament() {
         return depotLegalMedicament;
     }
 
-    public void setDepotLegal(int depotLegal) {
-        this.depotLegalMedicament = depotLegal;
+    public void setDepotLegalMedicament(int depotLegalMedicament) {
+        this.depotLegalMedicament = depotLegalMedicament;
     }
 
-    public String getNomCommercial() {
+    public String getNomCommercialMedicament() {
         return nomCommercialMedicament;
     }
 
-    public void setNomCommercial(String nomCommercial) {
-        this.nomCommercialMedicament = nomCommercial;
+    public void setNomCommercialMedicament(String nomCommercialMedicament) {
+        this.nomCommercialMedicament = nomCommercialMedicament;
     }
 
-    public ArrayList getComposition() {
+    public String getCompositionMedicament() {
         return compositionMedicament;
     }
 
-    public void setComposition(ArrayList composition) {
-        this.compositionMedicament = composition;
+    public void setCompositionMedicament(String compositionMedicament) {
+        this.compositionMedicament = compositionMedicament;
     }
 
-    public String getEffets() {
-        return effets;
+    public String getEffetsMedicament() {
+        return effetsMedicament;
     }
 
-    public void setEffets(String effets) {
-        this.effets = effets;
+    public void setEffetsMedicament(String effetsMedicament) {
+        this.effetsMedicament = effetsMedicament;
     }
 
-    public String getContreIndic() {
-        return contreIndic;
+    public String getContreIndicMedicament() {
+        return contreIndicMedicament;
     }
 
-    public void setContreIndic(String contreIndic) {
-        this.contreIndic = contreIndic;
+    public void setContreIndicMedicament(String contreIndicMedicament) {
+        this.contreIndicMedicament = contreIndicMedicament;
     }
 
-    public float getPrixEchantillon() {
-        return prixEchantillon;
+    public Float getPrixEchantillonMedicament() {
+        return prixEchantillonMedicament;
     }
 
-    public void setPrixEchantillon(float prixEchantillon) {
-        this.prixEchantillon = prixEchantillon;
+    public void setPrixEchantillonMedicament(Float prixEchantillonMedicament) {
+        this.prixEchantillonMedicament = prixEchantillonMedicament;
     }
-    
-    
+    @Override
+    public String toString() {
+        return "" + this.depotLegalMedicament + " " + this.nomCommercialMedicament + " " + this.compositionMedicament + " " + this.effetsMedicament + " " + this.contreIndicMedicament + " " + this.prixEchantillonMedicament;
+    }
+
+   
+
 }
+
+    

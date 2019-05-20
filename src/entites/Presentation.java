@@ -1,24 +1,51 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entites;
+/**
+ *
+ * @author Jeremy
+ */
+public class Presentation {
 
-class Presentation {
-    public int codePresentation;
-    public String libellePresentation;
-
-    public int getCode() {
-        return codePresentation;
+    public int preCodePresentation;
+    public String preLibellePresentation;
+    
+    public Presentation() {
+    }
+     
+    public Presentation(int preCode, String preLibelle) {
+        this.setPreCodePresentation(preCode);
+        this.setPreLibellePresentation(preLibelle);
+        
     }
 
-    public void setCode(int code) {
-        this.codePresentation = code;
+    public int getPreCodePresentation() {
+        return preCodePresentation;
     }
 
-    public String getLibelle() {
-        return libellePresentation;
+    public void setPreCodePresentation(int preCodePresentation) {
+        this.preCodePresentation = preCodePresentation;
     }
 
-    public void setLibelle(String libelle) {
-        this.libellePresentation = libelle;
+    public String getPreLibellePresentation() {
+        return preLibellePresentation;
+    }
+
+    public void setPreLibellePresentation(String preLibellePresentation) {
+        this.preLibellePresentation = preLibellePresentation;
+    }
+    @Override
+    public String toString() {
+        return "" + this.preCodePresentation + " " + this.preLibellePresentation ;
     }
     
+     
+
     
+
 }
+
+    

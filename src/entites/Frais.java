@@ -1,41 +1,34 @@
 package entites;
+import entites.FicheFrais;
+import entites.TypeFrais;
+import entites.Visiteur;
 
+public class Frais {
 
-class Frais {
-  public int codeFrais;
-
-  public String libelleFrais;
-
-  public  float forfait;
-
+  
   public  int quantite;
-
   public  float montant;
+  protected Visiteur visiteur;
+  protected FicheFrais ficheFrais;
+  protected TypeFrais typeFrais;
+  
 
-    public int getCode() {
-        return codeFrais;
+  public Frais(Visiteur visiteur, FicheFrais ficheFrais, TypeFrais typeFrais, int quantite, float montant){
+        getVisiteur().getMatricule();
+        getFicheFrais().getMois();
+        getTypeFrais().getCodeFrais();
+        setQuantite(quantite);
+        setMontant(montant);
+    }
+  
+    public FicheFrais getFicheFrais() {
+        return ficheFrais;
     }
 
-    public void setCode(int code) {
-        this.codeFrais = code;
+    public TypeFrais getTypeFrais() {
+        return typeFrais;
     }
-
-    public String getLibelle() {
-        return libelleFrais;
-    }
-
-    public void setLibelle(String libelle) {
-        this.libelleFrais = libelle;
-    }
-
-    public float getForfait() {
-        return forfait;
-    }
-
-    public void setForfait(float forfait) {
-        this.forfait = forfait;
-    }
-
+  
     public int getQuantite() {
         return quantite;
     }
@@ -52,6 +45,13 @@ class Frais {
         this.montant = montant;
     }
 
-  
+    public Visiteur getVisiteur() {
+        return visiteur;
+    }
+    
+  @Override
+    public String toString() {
+        return "" + this.getVisiteur().getMatricule() + " " + this.getFicheFrais().getMois() + " " + this.getTypeFrais().getCodeFrais() + " " + this.quantite + " " + this.montant;
+    }
   
 }
