@@ -36,8 +36,4 @@ public class Famille {
     public void setFamLibelle(String famLibelle) {
         this.famLibelle = famLibelle;
     }
-    @Override
-    public String toString() {
-        return "" + this.famCode + " " + this.famLibelle ;
-    }
 }

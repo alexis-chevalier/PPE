@@ -37,8 +37,4 @@ public class Composant {
     public void setCmpLibelle(String cmpLibelle) {
         this.cmpLibelle = cmpLibelle;
     }
-    @Override
-    public String toString() {
-        return "" + this.cmpCode + " " + this.cmpLibelle ;
-    }
 }
