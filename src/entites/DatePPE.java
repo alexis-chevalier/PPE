@@ -5,9 +5,6 @@
  */
 package entites;
 
-import bdd.CBDD;
-import java.sql.Date;
-
 /**
  *
  * @author Alexis

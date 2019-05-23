@@ -28,8 +28,6 @@ public class Visiteur {
 
     private Region regionVisiteur;
 
-    private Visiteur visiteur;
-
     private Departement departementVisiteur;
 
     /*public Visiteur(String matriculeVisiteur, String nomVisiteur, String prenomVisiteur, String adresseVisiteur, String cpVisiteur, String villeVisiteur, Date dateEmbaucheVisiteur, int codeSecteur, int codeDepartement) {
@@ -47,15 +45,15 @@ public class Visiteur {
     
     
     public Visiteur(String matriculeVisiteur, String nomVisiteur, String prenomVisiteur, String adresseVisiteur, String cpVisiteur, String villeVisiteur, Date dateEmbaucheVisiteur, Secteur secteurVisiteur, Departement departementVisiteur) {
-        this.matriculeVisiteur = matriculeVisiteur;
-        this.nomVisiteur = nomVisiteur;
-        this.prenomVisiteur = prenomVisiteur;
-        this.adresseVisiteur = adresseVisiteur;
-        this.cpVisiteur = cpVisiteur;
-        this.villeVisiteur = villeVisiteur;
-        this.dateEmbaucheVisiteur = dateEmbaucheVisiteur;
-        this.secteurVisiteur = secteurVisiteur;
-        this.departementVisiteur = departementVisiteur;
+        this.setMatricule(matriculeVisiteur);
+        this.setNomVisiteur(nomVisiteur);
+        this.setPrenomVisiteur(prenomVisiteur);
+        this.setAdresse(adresseVisiteur);
+        this.setCp(cpVisiteur);
+        this.setVille(cpVisiteur);
+        this.setDateEmbauche(dateEmbaucheVisiteur);
+        this.setSecteurVisiteur(secteurVisiteur);
+        this.setDepartementVisiteur(departementVisiteur);
     }
 
     /*public Visiteur(String matriculeVisiteur, String nomVisiteur, String prenomVisiteur, String adresseVisiteur, String cpVisiteur, String villeVisiteur, Date dateEmbaucheVisiteur, Secteur secteurVisiteur, Role roleVisiteur, Region regionVisiteur, Departement departementVisiteur) {
@@ -74,10 +72,6 @@ public class Visiteur {
 
     public String getNomVisiteur() {
         return nomVisiteur;
-    }
-
-    public Visiteur getVisiteur() {
-        return visiteur;
     }
 
     public Departement getDepartementVisiteur() {
@@ -142,6 +136,22 @@ public class Visiteur {
 
     public void setDateEmbauche(Date dateEmbauche) {
         this.dateEmbaucheVisiteur = dateEmbauche;
+    }
+
+    public Region getRegionVisiteur() {
+        return regionVisiteur;
+    }
+
+    public void setRegionVisiteur(Region regionVisiteur) {
+        this.regionVisiteur = regionVisiteur;
+    }
+
+    public void setSecteurVisiteur(Secteur secteurVisiteur) {
+        this.secteurVisiteur = secteurVisiteur;
+    }
+
+    public void setDepartementVisiteur(Departement departementVisiteur) {
+        this.departementVisiteur = departementVisiteur;
     }
     
     @Override

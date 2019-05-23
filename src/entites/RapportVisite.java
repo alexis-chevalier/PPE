@@ -1,7 +1,6 @@
 package entites;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 public class RapportVisite {
 
@@ -15,41 +14,23 @@ public class RapportVisite {
     private Visiteur visiteur;
     private Praticien praticien;
 
-    
-
-    public RapportVisite(int numeroRapportVisite, Date date, String bilan, String motif, String matricule, int praticien) {
-        this.numeroRapportVisite = numeroRapportVisite;
-        this.date = date;
-        this.bilan = bilan;
-        this.motif = motif;
-        this.numPra = praticien;
-        this.matriculeVis = matricule;
-    }
-
-    /*public RapportVisite(int numeroRapportVisite, Date date, String bilan, String motif, Visiteur visiteur) {
-        this.numeroRapportVisite = numeroRapportVisite;
-        this.date = date;
-        this.bilan = bilan;
-        this.motif = motif;
-        this.visiteur = visiteur;
-    }*/
 
     public RapportVisite(int numeroRapportVisite, Date date, String bilan, String motif, Visiteur visiteur, Praticien praticien) {
-        this.numeroRapportVisite = numeroRapportVisite;
-        this.date = date;
-        this.bilan = bilan;
-        this.motif = motif;
-        this.visiteur = visiteur;
-        this.praticien = praticien;
+        this.setNumero(numeroRapportVisite);
+        this.setDate(date);
+        this.setBilan(bilan);
+        this.setMotif(motif);
+        this.setPraticien(praticien);
+        this.setVisiteur(visiteur);
     }
     
     public RapportVisite(int numeroRapportVisite, String dateString, String bilan, String motif, Visiteur visiteur, Praticien praticien) {
-        this.numeroRapportVisite = numeroRapportVisite;
-        this.dateString = dateString;
-        this.bilan = bilan;
-        this.motif = motif;
-        this.visiteur = visiteur;
-        this.praticien = praticien;
+        this.setNumero(numeroRapportVisite);
+        this.setDateString(dateString);
+        this.setBilan(bilan);
+        this.setMotif(motif);
+        this.setPraticien(praticien);
+        this.setVisiteur(visiteur);
     }
 
     public String getDateString() {
@@ -66,6 +47,10 @@ public class RapportVisite {
 
     public void setPraticien(Praticien praticien) {
         this.praticien = praticien;
+    }
+    
+    public void setVisiteur(Visiteur visiteur) {
+        this.visiteur = visiteur;
     }
     
     public Visiteur getVisiteur() {
@@ -103,7 +88,7 @@ public class RapportVisite {
     public void setMotif(String motif) {
         this.motif = motif;
     }
-
+    
     @Override
     public String toString() {
                 if (this.date != null){

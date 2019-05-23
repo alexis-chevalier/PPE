@@ -7,12 +7,12 @@ public class Secteur {
     public String libelleSecteur;
 
     public Secteur(int codeSecteur) {
-        this.codeSecteur = codeSecteur;
+        this.setCode(codeSecteur);
     }
     
     public Secteur(int codeSecteur, String libelleSecteur) {
-        this.codeSecteur = codeSecteur;
-        this.libelleSecteur = libelleSecteur;
+        this.setCode(codeSecteur);
+        this.setLibelle(libelleSecteur);
     }
 
     public int getCode() {

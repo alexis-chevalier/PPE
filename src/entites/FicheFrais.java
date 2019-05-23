@@ -1,6 +1,6 @@
 package entites;
 import java.util.List;
-import Services.TableFrais;
+import table.CTableFrais;
 
 public class FicheFrais {
     
@@ -8,7 +8,7 @@ public class FicheFrais {
   protected int nbHorsClassif;
   protected float montantHorsClassif;
   Visiteur visiteur;
-  TableFrais listefrais;
+  CTableFrais listefrais;
   
   public FicheFrais(int mois, int nbHorsClassif, float montantHorsClassif, Visiteur visiteur, List<Frais>listeFrais){
         setMois(mois);

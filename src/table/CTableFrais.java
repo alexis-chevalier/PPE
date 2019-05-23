@@ -1,4 +1,4 @@
-package Services;
+package table;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import entites.Frais;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-public class TableFrais {
+public class CTableFrais {
 ///*Un attribut bdd permet de se connecter à la base*/
 //    CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
 
@@ -168,7 +168,7 @@ public class TableFrais {
             Float montant = rs.getFloat("INC_MONTANT");
             return new Frais(new Visiteur(matricule), new FicheFrais(mois), new TypeFrais(code), quantite, montant);
         } catch (SQLException ex) {
-            Logger.getLogger(TableFrais.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTableFrais.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -225,7 +225,7 @@ public class TableFrais {
     public static void main(String[] args) {
 
         CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
-        TableFrais table = new TableFrais();
+        CTableFrais table = new CTableFrais();
         table.setBdd(bdd);
 
         Visiteur visiteur1 = new Visiteur("f001");

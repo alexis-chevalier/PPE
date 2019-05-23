@@ -1,4 +1,4 @@
-package Services;
+package table;
 
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  *
  * @author admin
  */
-public class TableFicheFrais {
+public class CTableFicheFrais {
 ///*Un attribut bdd permet de se connecter à la base*/
 //    CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
 
@@ -169,14 +169,14 @@ public class TableFicheFrais {
             float montantHorsClassif = rs.getFloat("FF_MontantHorsClassif");
             String matricule = rs.getString("VIS_MATRICULE");
             
-            TableFrais tableFrais = new TableFrais();
+            CTableFrais tableFrais = new CTableFrais();
             
             ArrayList<Frais> tab = tableFrais.lireFrais(matricule, mois);
             
             return new FicheFrais(mois, nbHorsClassif, montantHorsClassif, new Visiteur(matricule), tab);
             
         } catch (SQLException ex) {
-            Logger.getLogger(TableFicheFrais.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTableFicheFrais.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -232,9 +232,9 @@ public class TableFicheFrais {
     
     public static void main(String[] args) {
         CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
-        TableFicheFrais table = new TableFicheFrais();
-        TableFrais tableFrais = new TableFrais();
-        TableTypeFrais tableTypeFrais = new TableTypeFrais();
+        CTableFicheFrais table = new CTableFicheFrais();
+        CTableFrais tableFrais = new CTableFrais();
+        CTableTypeFrais tableTypeFrais = new CTableTypeFrais();
         table.setBdd(bdd);
         
 //        ArrayList<Frais> tab = tableFrais.lireFrais("A001", 1);

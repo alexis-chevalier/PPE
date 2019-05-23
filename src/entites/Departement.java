@@ -10,21 +10,22 @@ public class Departement {
 
     private Visiteur visiteur;
 
+
     public Departement(int codeDepartement) {
-        this.codeDepartement = codeDepartement;
+        this.setCode(codeDepartement);
     }
 
     public Departement(int codeDepartement, String nomDepartement, int chefVente) {
-        this.codeDepartement = codeDepartement;
-        this.nomDepartement = nomDepartement;
-        this.chefVente = chefVente;
+        this.setCode(codeDepartement);
+        this.setNom(nomDepartement);
+        this.setChefVente(chefVente);
     }
 
     public Departement(int codeDepartement, String nomDepartement, int chefVente, Visiteur visiteur) {
-        this.codeDepartement = codeDepartement;
-        this.nomDepartement = nomDepartement;
-        this.chefVente = chefVente;
-        this.visiteur = visiteur;
+        this.setCode(codeDepartement);
+        this.setNom(nomDepartement);
+        this.setChefVente(chefVente);
+        this.setVisiteur(visiteur);
     }
 
     public int getCode() {
@@ -50,7 +51,15 @@ public class Departement {
     public void setChefVente(int chefVente) {
         this.chefVente = chefVente;
     }
+    
+    public void setVisiteur(Visiteur visiteur) {
+        this.visiteur = visiteur;
+    }
 
+    public Visiteur getVisiteur() {
+        return visiteur;
+    }
+    
     @Override
     public String toString() {
         return "" + this.codeDepartement + " " + this.nomDepartement + " " + this.chefVente;

@@ -6,8 +6,6 @@ public class Region {
 
     public String nomRegion;
 
-    public int codeSecteur;
-
     private Secteur secteur;
 
     /*public Region(int idRegion, String nomRegion, int codeSecteur) {
@@ -17,17 +15,13 @@ public class Region {
     }*/
 
     public Region(int idRegion, String nomRegion, Secteur secteur) {
-        this.idRegion = idRegion;
-        this.nomRegion = nomRegion;
-        this.secteur = secteur;
+        this.setId(idRegion);
+        this.setNom(nomRegion);
+        this.setSecteur(secteur);
     }
 
     public Region(int idRegion) {
-        this.idRegion = idRegion;
-    }
-
-    public Secteur getSecteur() {
-        return secteur;
+        this.setId(idRegion);
     }
 
     public int getId() {
@@ -44,6 +38,14 @@ public class Region {
 
     public void setNom(String nom) {
         this.nomRegion = nom;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
+    
+    public Secteur getSecteur() {
+        return secteur;
     }
 
     @Override

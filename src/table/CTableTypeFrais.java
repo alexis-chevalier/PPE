@@ -1,4 +1,4 @@
-package Services;
+package table;
 
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TableTypeFrais {
+public class CTableTypeFrais {
 ///*Un attribut bdd permet de se connecter à la base*/
 //    CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
     
@@ -132,7 +132,7 @@ public class TableTypeFrais {
             int forfait = rs.getInt("TF_FORFAIT");
             return new TypeFrais(code, libelle, forfait);
         } catch (SQLException ex) {
-            Logger.getLogger(TableTypeFrais.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTableTypeFrais.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -186,7 +186,7 @@ public class TableTypeFrais {
      
     public static void main(String[] args) {
         CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
-        TableTypeFrais table = new TableTypeFrais();
+        CTableTypeFrais table = new CTableTypeFrais();
         table.setBdd(bdd);
         
         TypeFrais type1 = new TypeFrais(0, "Type de Frais 1", (float) 52.36);

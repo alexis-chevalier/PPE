@@ -12,6 +12,7 @@ import entites.RapportVisite;
 import entites.Visiteur;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import table.CTablePraticien;
 import table.CTableRapportVisite;
 import table.CTableVisiteur;
 
@@ -59,7 +60,7 @@ public class CMetierRapportVisite {
         CBDD bdd = new CBDD(new CParametresStockageBDD("parametresBdd.properties"));
         CTablePraticien tabPraticien = new CTablePraticien();
         tabPraticien.setBdd(bdd);
-        Praticien praticien = tabPraticien.lirePraticien(numero);
+        Praticien praticien = tabPraticien.lireUnPraticien(numero);
         String nom = praticien.getNomPraticien();
         return nom;
     }

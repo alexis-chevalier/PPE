@@ -229,7 +229,7 @@ public class CTablePraticien {
     /**
      * Méthode de lecture d'un élément Praticien.
      *
-     * @param int Cette méthode prend en paramètre un objet Praticien, elle
+     * @param Praticien Cette méthode prend en paramètre un objet Praticien, elle
      * permet de lire les informations d'un objet Praticien dans la BDD.
      * @return
      */
@@ -253,6 +253,33 @@ public class CTablePraticien {
         }
         return null;
     }
+    
+    /**
+     * Méthode de lecture d'un élément Praticien.
+     *
+     * @param int Cette méthode prend en paramètre un numero, elle
+     * permet de lire les informations Praticien dans la BDD.
+     * @return Praticien
+     */
+    public Praticien lireUnPraticien(int numero) {
+        Praticien praticien = null;
+        if (bdd.connecter() == true) {
+            ArrayList<Praticien> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`praticien` where `PRA_NUM_PRATICIEN`=" + numero + ";");
+            try {
+                while (rs.next()) {
+                    praticien = convertirPraticien(rs);
+                }
+            } catch (SQLException ex) {
+            }
+            bdd.deconnecter();
+            return praticien;
+        } else {
+            System.out.println("Connexion KO");
+        }
+        return null;
+    }
+    
 
     /**
      * Méthode de suppresion d'un élément Praticien dans la BDD.
