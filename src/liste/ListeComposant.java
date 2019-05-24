@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package liste;
+package Liste;
 
 import java.util.ArrayList;
 import entites.Composant;
@@ -41,7 +41,9 @@ public class ListeComposant {
 
     public void afficherListeComposant() {
         for (int i = 0; i < this.listeComposant.size(); i++) {
-            System.out.println(this.getListeComposant().get(i).cmpLibelle);
+            System.out.println(" Le code associé au composant est :" + this.getListeComposant().get(i).cmpCode);
+            System.out.println(" Le libelle associé au composant est :" + this.getListeComposant().get(i).cmpLibelle);
+            System.out.println("---------------------------------");
             
         }
     }

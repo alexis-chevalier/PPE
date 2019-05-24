@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeComposant;
+import Liste.ListeFormuler;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,16 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Composant;
-
-
+import entites.Formuler;
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableComposant {
-    protected CBDD bdd;
+public class CTableFormuler {
+  protected CBDD bdd;
 
     public CBDD getBdd() {
         return bdd;
@@ -32,21 +30,26 @@ public class CTableComposant {
         this.bdd = bdd;
     }
 
-    public CTableComposant() {
+    public CTableFormuler() {
     }
 
-    public CTableComposant(CBDD bdd) {
+    public CTableFormuler(CBDD bdd) {
         this.setBdd(bdd);
     }
     /**
      * Permet de creer la requete de creation de table, de l'envoyer à phpmyadmin et de la creer avec les attribus spécifier dans cette requete.
      * @return 
      */
-    public int creerTableComposant() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`COMPOSANT` ( `CMP_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `CMP_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`CMP_CODE`)) ENGINE = InnoDB;";
+    public int creerTableFormuler() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FORMULER` ( `PRE_CODE` TINYINT(4) UNSIGNED NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, PRIMARY KEY (`PRE_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
+        String req2 = "ALTER TABLE FORMULER\\n\"\n" +
+"                + \"  ADD CONSTRAINT FK_FORMULER_TIN_CODE FOREIGN KEY (TIN_CODE) REFERENCES TYPE_INDIVIDU (TIN_CODE),\\n\"\n" +
+"                 + \"  ADD CONSTRAINT FK_FORMULER_DOS_CODE FOREIGN KEY (DOS_CODE) REFERENCES dosage (DOS_CODE),\\n\"\n" +
+"                + \"  ADD CONSTRAINT FK_FORMULER_MED_DEPOTLEGAL FOREIGN KEY (MED_DEPOTLEGAL) REFERENCES medicament (MED_DEPOTLEGAL);\";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
+            bdd.executerRequeteUpdate(req2);
             System.out.println("Res = " + res);
             bdd.deconnecter();
         } else {
@@ -55,11 +58,11 @@ public class CTableComposant {
         return res;
     }
     /**
-     * Cette méthode permet de supprimer la totalité de la table composant.
+     * Cette méthode permet de supprimer la totalité de la table Formuler.
      * @return 
      */
-    public int supprimerTableComposant() {
-        String req = "DROP TABLE IF EXISTS `COMPOSANT`;";
+    public int supprimerTableFormuler() {
+        String req = "DROP TABLE IF EXISTS `FORMULER`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -75,12 +78,12 @@ public class CTableComposant {
      * @param nouveau
      * @return 
      */
-    public int insererTableComposant(Composant nouveau) {
+    public int insererTableFormuler(Formuler nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `COMPOSANT`(`CMP_LIBELLE`) "
+        String req = "INSERT INTO `FORMULER`(`MED_DEPOTLEGAL`) "
                 + "VALUES ('"
-                //+ nouveau.getCmpCode() + "', '"
-                + nouveau.getCmpLibelle()+ "');";
+                //+ nouveau.getPreCode() + "', '"
+                + nouveau.getMedDepotLegal()+ "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -96,15 +99,15 @@ public class CTableComposant {
      * @param numero
      * @return 
      */
-    public int modifierTableComposant(Composant numero) {
+    public int modifierTableFormuler(Formuler numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `COMPOSANT` SET "
+        String req = "UPDATE `FORMULER` SET "
                 //+ "`CMP_CODE`="
                 //+ numero.getCmpCode()+ ", "
-                + "`CMP_LIBELLE`='"
-                + numero.getCmpLibelle()+ "' "
-                + "WHERE `CMP_CODE` = "
-                + numero.getCmpCode() + ";";
+                + "`MED_DEPOTLEGAL`='"
+                + numero.getMedDepotLegal()+ "' "
+                + "WHERE `PRE_CODE` = "
+                + numero.getPreCode() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -121,10 +124,11 @@ public class CTableComposant {
  * @param rs
  * @return 
  */
-    Composant convertirComposant(ResultSet rs) {
+    Formuler convertirFormuler(ResultSet rs) {
         try {
-            int code = rs.getInt("CMP_CODE");
-            String libelle = rs.getString("CMP_LIBELLE");
+            int code = rs.getInt("DOS_CODE");
+            int depotLegal = rs.getInt("MED_DEPOTLEGAL");
+           
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -136,9 +140,9 @@ public class CTableComposant {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Composant(code, libelle);
+            return new Formuler(code, depotLegal);
         } catch (SQLException ex) {
-            Logger.getLogger(Composant.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Formuler.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -165,25 +169,25 @@ public class CTableComposant {
         return null;
     }
     /**
-     * permet de lire tous les enregistrements de la table composant de les afficher a l'aide de listecomposant qui recupere les valeurs des enregistrements
+     * permet de lire tous les enregistrements de la table Formuler de les afficher a l'aide de listeFormuler qui recupere les valeurs des enregistrements
      * @return 
      */
-    public ListeComposant lireTableComposant() {
+    public ListeFormuler lireTableFormuler() {
          System.out.println("------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Composant> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT`;");
+            ArrayList<Formuler> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FORMULER`;");
             try {
                 while (rs.next()) {
-                    Composant composant = convertirComposant(rs);
-                    liste.add(composant);
+                    Formuler formuler = convertirFormuler(rs);
+                    liste.add(formuler);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeComposant listeComposant = new ListeComposant();
-            listeComposant.setListeComposant(liste);
-            return listeComposant;
+            ListeFormuler listeFormuler = new ListeFormuler();
+            listeFormuler.setListeFormuler(liste);
+            return listeFormuler;
         } else {
             System.out.println("Connexion KO");
         }
@@ -194,19 +198,19 @@ public class CTableComposant {
      * @param code
      * @return 
      */
-    public Composant lireTableComposant(int code) {
+    public Formuler lireTableFormuler(int code) {
          if (bdd.connecter() == true) {
-            Composant composant = new Composant();
-            composant.setCmpCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT` where `CMP_CODE`=" + code + ";");
+            Formuler formuler = new Formuler();
+            formuler.setPreCode(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`Formuler` where `PRE_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
-                    composant = convertirComposant(rs);
+                    formuler = convertirFormuler(rs);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            return composant;
+            return formuler;
         } else {
             System.out.println("Connexion KO");
         }
@@ -217,8 +221,8 @@ public class CTableComposant {
      * @param code
      * @return 
      */
-    public int supprimerTableComposant(Composant code) {
-        String req = "DELETE FROM `COMPOSANT` WHERE `CMP_CODE`=" + code.getCmpCode()+ ";";
+    public int supprimerTableFormuler(Formuler code) {
+        String req = "DELETE FROM `FORMULER` WHERE `CMP_CODE`=" + code.getPreCode()+ ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -232,27 +236,28 @@ public class CTableComposant {
     }
 
     public static void main(String[] args) {
-        CTableComposant table = new CTableComposant();
+        CTableFormuler table = new CTableFormuler();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableComposant();
+        table.creerTableFormuler();
         
-        Composant test = new Composant();
-        test.setCmpCode(3);
-        test.setCmpLibelle("helicoptere");
+        Formuler test = new Formuler();
+        test.setPreCode(1);
+        test.setMedDepotLegal(3);
         
-        //table.insererTableComposant(test);
+        
+        //table.insererTableFormuler(test);
 
-        //table.modifierTableComposant(test);
+        //table.modifierTableFormuler(test);
         
-        //System.out.println(table.lireTableComposant(2));
+        //System.out.println(table.lireTableFormuler(2));
         
-        //table.supprimerTableComposant();
-        //table.supprimerTableComposant(test);
+        //table.supprimerTableFormuler();
+        //table.supprimerTableFormuler(test);
         
 
         //table.supprimerPraticien();
-        table.lireTableComposant().afficherListeComposant();
+        //table.lireTableFormuler().afficherListeFormuler();
 
     } 
     

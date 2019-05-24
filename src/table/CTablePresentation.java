@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeFamille;
+import Liste.ListePresentation;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,34 +13,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Famille;
-
-
+import entites.Presentation;
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableFamille {
-        protected CBDD bdd;
+public class CTablePresentation {
+    protected CBDD bdd;
 
     public CBDD getBdd() {
         return bdd;
-    }
-
-    public void setBdd(CBDD bdd) {
+}
+public void setBdd(CBDD bdd) {
         this.bdd = bdd;
     }
 
-    public CTableFamille() {
+    public CTablePresentation() {
     }
 
-    public CTableFamille(CBDD bdd) {
+    public CTablePresentation(CBDD bdd) {
         this.setBdd(bdd);
     }
 
-    public int creerTableFamille() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FAMILLE` ( `FAM_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `FAM_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`FAM_CODE`)) ENGINE = InnoDB;";
+    public int creerTablePresentation() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`presentation` ( PRE_CODE int(11) primary key, PRE_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -52,8 +49,8 @@ public class CTableFamille {
         return res;
     }
 
-    public int supprimerFamille() {
-        String req = "DROP TABLE IF EXISTS `FAMILLE` ;";
+    public int supprimerPresentation() {
+        String req = "DROP TABLE IF EXISTS `presentation`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -65,12 +62,20 @@ public class CTableFamille {
         return res;
     }
 
-    public int insererFamille(Famille nouveau) {
+    public int insererPresentation(Presentation nouveau) {
+        
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `FAMILLE`(`FAM_LIBELLE`) "
+        String req = "INSERT INTO `presentation`(`PRE_CODE`, `PRE_LIBELLE`) "
                 + "VALUES ('"
-                //+ nouveau.getFamCode() + "', '"
-                + nouveau.getFamLibelle() + "');";
+                + nouveau.getPreCodePresentation() + "', '"
+                + nouveau.getPreLibellePresentation() + "');";
+        //+ personne.getId()+"', '"
+        // + personne.getNom() + "', '"
+        //+ personne.getPrenom() + "', '"
+        //+ personne.getIdAdresse() + "', '"
+        //+ personne.getMail() + "', '"
+        //+ personne.getTelephone() + "', '"
+        //+ dateNaiss + "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -82,20 +87,20 @@ public class CTableFamille {
         return res;
     }
 
-    public int modifierFamille(Famille numero) {
+    public int modifierPresentation(Presentation numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `FAMILLE` SET "
-                //+ "`FAM_CODE`="
-                //+ numero.getFamCode() + ", "
-                + "`FAM_LIBELLE`='"
-                + numero.getFamLibelle()+ "' "
-                + "WHERE `FAM_CODE` = "
-                + numero.getFamCode() + ";";
+        String req = "UPDATE `Presentation` SET "
+                + "`PRE_CODE`="
+                + numero.getPreCodePresentation() + ", "
+                + "`PRE_LIBELLE`='"
+                + numero.getPreLibellePresentation() + "' "
+                + "WHERE `PRE_CODE` = "
+                + numero.getPreCodePresentation() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
+            System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -103,10 +108,11 @@ public class CTableFamille {
         return res;
     }
 
-    Famille convertirFamille(ResultSet rs) {
+    Presentation convertirPresentation(ResultSet rs) {
         try {
-            int code = rs.getInt("FAM_CODE");
-            String libelle = rs.getString("FAM_LIBELLE");
+            int preCode = rs.getInt("PRE_CODE");
+            String preLibelle = rs.getString("PRE_LIBELLE");
+            
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -118,9 +124,9 @@ public class CTableFamille {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Famille(code, libelle);
+            return new Presentation(preCode, preLibelle);
         } catch (SQLException ex) {
-            Logger.getLogger(Famille.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Presentation.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -144,61 +150,53 @@ public class CTableFamille {
         return null;
     }
 
-    public ListeFamille lireFamille() {
-        System.out.println("--------------------------------------------------------------");
+    public ListePresentation lirePresentation() {
+        System.out.println("--------------------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Famille> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE`;");
+            ArrayList<Presentation> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`presentation`;");
             try {
                 while (rs.next()) {
-                    Famille famille = convertirFamille(rs);
-                    liste.add(famille);
+                    Presentation presentation = convertirPresentation(rs);
+                    liste.add(presentation);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeFamille listeFamille = new ListeFamille();
-            listeFamille.setLListeFamille(liste);
-            return listeFamille;
+            ListePresentation listePresentation = new ListePresentation();
+            listePresentation.setListePresentation(liste);
+            return listePresentation;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
 
-    public Famille lireUneFamille(int code) {
+    public Presentation lireUnePresentation(int preCode) {
         if (bdd.connecter() == true) {
-            Famille famille = new Famille();
-            famille.setFamCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE` where `FAM_CODE`=" + code + ";");
+            Presentation presentation = new Presentation();
+            presentation.setPreCodePresentation(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`presentation` where `PRE_CODE`=" + preCode + ";");
             try {
                 while (rs.next()) {
-                    famille = convertirFamille(rs);
+                    presentation = convertirPresentation(rs);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            return famille;
+            return presentation;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
-    /**
-     * titre
-     * descritpion
-     * 
-     * @param code
-     * @return 
-     */
 
-    public int supprimerFamille(Famille code) {
-        String req = "DELETE FROM FAMILLE WHERE `FAM_CODE`=" + code.getFamCode() + ";";
+    public int supprimerPresentation(Presentation preCode) {
+        String req = "DELETE FROM presentation WHERE `PRE_CODE`=" + preCode.getPreCodePresentation() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -207,26 +205,27 @@ public class CTableFamille {
     }
 
     public static void main(String[] args) {
-        CTableFamille table = new CTableFamille();
+        CTablePresentation table = new CTablePresentation();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableFamille();
+        table.creerTablePresentation();
 
-        Famille test = new Famille();
-        //test.setFamCode(2); //pas besoin car le code est en auto-increment 
-        test.setFamLibelle("roche");
+        Presentation test = new Presentation();
+        test.setPreCodePresentation(3);
+        test.setPreLibellePresentation("Pop");
         
-        //table.insererFamille(test); //inserer des infos(celles de l'objet test) dans la bdd 
-        
-        //table.modifierFamille(test);
-        //System.out.println(table.lireUneFamille(1));
+        //table.insererPresentation(test);
 
-        //table.supprimerFamille();
+        //table.supprimerPresentation();
         
-        //table.supprimerFamille(test);
-        //table.supprimerFamille();
         
-        table.lireFamille().afficherListeFamille();
+        //table.modifierPresentation(test);//modifier les données prelibelle de l'objet test en utilisant comme referecence le precode.
 
+        //System.out.println(table.lireUnePresentation(1));
+        
+        //table.supprimerPresentation(test);
+        //table.supprimerPresentation();
+        
+        table.lirePresentation().afficherPresentation();
     }
 }

@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeComposant;
+import Liste.ListePrescrire;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,15 +13,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Composant;
-
-
+import entites.Prescrire;
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableComposant {
+public class CTablePrescrire {
     protected CBDD bdd;
 
     public CBDD getBdd() {
@@ -32,21 +30,26 @@ public class CTableComposant {
         this.bdd = bdd;
     }
 
-    public CTableComposant() {
+    public CTablePrescrire() {
     }
 
-    public CTableComposant(CBDD bdd) {
+    public CTablePrescrire(CBDD bdd) {
         this.setBdd(bdd);
     }
     /**
      * Permet de creer la requete de creation de table, de l'envoyer à phpmyadmin et de la creer avec les attribus spécifier dans cette requete.
      * @return 
      */
-    public int creerTableComposant() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`COMPOSANT` ( `CMP_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `CMP_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`CMP_CODE`)) ENGINE = InnoDB;";
+    public int creerTablePrescrire() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`PRESCRIRE` ( `TIN_CODE` TINYINT(4) UNSIGNED NOT NULL, `DOS_CODE` TINYINT(4) NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, `PRE_POSOLOGIE` TINYINT(4) NULL, PRIMARY KEY (`TIN_CODE`, `DOS_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
+        String req2 = "ALTER TABLE PRESCRIRE\\n\"\n" +
+"                + \"  ADD CONSTRAINT FK_PRESCRIRE_TIN_CODE FOREIGN KEY (TIN_CODE) REFERENCES TYPE_INDIVIDU (TIN_CODE),\\n\"\n" +
+"                 + \"  ADD CONSTRAINT FK_PRESCRIRE_DOS_CODE FOREIGN KEY (DOS_CODE) REFERENCES dosage (DOS_CODE),\\n\"\n" +
+"                + \"  ADD CONSTRAINT FK_PRESCRIRE_MED_DEPOTLEGAL FOREIGN KEY (MED_DEPOTLEGAL) REFERENCES medicament (MED_DEPOTLEGAL);\";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
+            bdd.executerRequeteUpdate(req2);
             System.out.println("Res = " + res);
             bdd.deconnecter();
         } else {
@@ -55,11 +58,11 @@ public class CTableComposant {
         return res;
     }
     /**
-     * Cette méthode permet de supprimer la totalité de la table composant.
+     * Cette méthode permet de supprimer la totalité de la table Prescrire.
      * @return 
      */
-    public int supprimerTableComposant() {
-        String req = "DROP TABLE IF EXISTS `COMPOSANT`;";
+    public int supprimerTablePrescrire() {
+        String req = "DROP TABLE IF EXISTS `PRESCRIRE`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -75,12 +78,12 @@ public class CTableComposant {
      * @param nouveau
      * @return 
      */
-    public int insererTableComposant(Composant nouveau) {
+    public int insererTablePrescrire(Prescrire nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `COMPOSANT`(`CMP_LIBELLE`) "
+        String req = "INSERT INTO `PRESCRIRE`(`PRE_POSOLOGIE`) "
                 + "VALUES ('"
                 //+ nouveau.getCmpCode() + "', '"
-                + nouveau.getCmpLibelle()+ "');";
+                + nouveau.getPrePosologie()+ "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -96,15 +99,15 @@ public class CTableComposant {
      * @param numero
      * @return 
      */
-    public int modifierTableComposant(Composant numero) {
+    public int modifierTablePrescrire(Prescrire numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `COMPOSANT` SET "
+        String req = "UPDATE `PRESCRIRE` SET "
                 //+ "`CMP_CODE`="
                 //+ numero.getCmpCode()+ ", "
-                + "`CMP_LIBELLE`='"
-                + numero.getCmpLibelle()+ "' "
-                + "WHERE `CMP_CODE` = "
-                + numero.getCmpCode() + ";";
+                + "`PRE_POSOLOGIE`='"
+                + numero.getPrePosologie()+ "' "
+                + "WHERE `DOS_CODE` = "
+                + numero.getDosCode() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -121,10 +124,12 @@ public class CTableComposant {
  * @param rs
  * @return 
  */
-    Composant convertirComposant(ResultSet rs) {
+    Prescrire convertirPrescrire(ResultSet rs) {
         try {
-            int code = rs.getInt("CMP_CODE");
-            String libelle = rs.getString("CMP_LIBELLE");
+            int ccode = rs.getInt("TIN_CODE");
+            int code = rs.getInt("DOS_CODE");
+            int depotLegal = rs.getInt("MED_DEPOTLEGAL");
+            int posologie = rs.getInt("PRE_POSOLOGIE");
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -136,9 +141,9 @@ public class CTableComposant {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Composant(code, libelle);
+            return new Prescrire(ccode, code, depotLegal, posologie);
         } catch (SQLException ex) {
-            Logger.getLogger(Composant.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Prescrire.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -165,25 +170,25 @@ public class CTableComposant {
         return null;
     }
     /**
-     * permet de lire tous les enregistrements de la table composant de les afficher a l'aide de listecomposant qui recupere les valeurs des enregistrements
+     * permet de lire tous les enregistrements de la table Prescrire de les afficher a l'aide de listePrescrire qui recupere les valeurs des enregistrements
      * @return 
      */
-    public ListeComposant lireTableComposant() {
+    public ListePrescrire lireTablePrescrire() {
          System.out.println("------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Composant> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT`;");
+            ArrayList<Prescrire> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`PRESCRIRE`;");
             try {
                 while (rs.next()) {
-                    Composant composant = convertirComposant(rs);
-                    liste.add(composant);
+                    Prescrire prescrire = convertirPrescrire(rs);
+                    liste.add(prescrire);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeComposant listeComposant = new ListeComposant();
-            listeComposant.setListeComposant(liste);
-            return listeComposant;
+            ListePrescrire listePrescrire = new ListePrescrire();
+            listePrescrire.setListePrescrire(liste);
+            return listePrescrire;
         } else {
             System.out.println("Connexion KO");
         }
@@ -194,19 +199,19 @@ public class CTableComposant {
      * @param code
      * @return 
      */
-    public Composant lireTableComposant(int code) {
+    public Prescrire lireTablePrescrire(int code) {
          if (bdd.connecter() == true) {
-            Composant composant = new Composant();
-            composant.setCmpCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT` where `CMP_CODE`=" + code + ";");
+            Prescrire prescrire = new Prescrire();
+            prescrire.setTinCode(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`PRESCRIRE` where `CMP_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
-                    composant = convertirComposant(rs);
+                    prescrire = convertirPrescrire(rs);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            return composant;
+            return prescrire;
         } else {
             System.out.println("Connexion KO");
         }
@@ -217,8 +222,8 @@ public class CTableComposant {
      * @param code
      * @return 
      */
-    public int supprimerTableComposant(Composant code) {
-        String req = "DELETE FROM `COMPOSANT` WHERE `CMP_CODE`=" + code.getCmpCode()+ ";";
+    public int supprimerTablePrescrire(Prescrire code) {
+        String req = "DELETE FROM `PRESCRIRE` WHERE `CMP_CODE`=" + code.getTinCode()+ ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -232,27 +237,29 @@ public class CTableComposant {
     }
 
     public static void main(String[] args) {
-        CTableComposant table = new CTableComposant();
+        CTablePrescrire table = new CTablePrescrire();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableComposant();
+        table.creerTablePrescrire();
         
-        Composant test = new Composant();
-        test.setCmpCode(3);
-        test.setCmpLibelle("helicoptere");
+        Prescrire test = new Prescrire();
+        test.setTinCode(1);
+        test.setDosCode(3);
+        test.setMedDepotLegal(3);
+        test.setPrePosologie(0);
         
-        //table.insererTableComposant(test);
+        //table.insererTablePrescrire(test);
 
-        //table.modifierTableComposant(test);
+        //table.modifierTablePrescrire(test);
         
-        //System.out.println(table.lireTableComposant(2));
+        //System.out.println(table.lireTablePrescrire(2));
         
-        //table.supprimerTableComposant();
-        //table.supprimerTableComposant(test);
+        //table.supprimerTablePrescrire();
+        //table.supprimerTablePrescrire(test);
         
 
         //table.supprimerPraticien();
-        table.lireTableComposant().afficherListeComposant();
+        //table.lireTablePrescrire().afficherListePrescrire();
 
     } 
     

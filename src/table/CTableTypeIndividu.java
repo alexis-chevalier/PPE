@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeFamille;
+import Liste.ListeTypeIndividu;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,34 +13,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Famille;
-
+import entites.TypeIndividu;
 
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableFamille {
-        protected CBDD bdd;
+public class CTableTypeIndividu {
+    
+   protected CBDD bdd;
 
     public CBDD getBdd() {
         return bdd;
-    }
-
-    public void setBdd(CBDD bdd) {
+}
+public void setBdd(CBDD bdd) {
         this.bdd = bdd;
     }
 
-    public CTableFamille() {
+    public CTableTypeIndividu() {
     }
 
-    public CTableFamille(CBDD bdd) {
+    public CTableTypeIndividu(CBDD bdd) {
         this.setBdd(bdd);
     }
 
-    public int creerTableFamille() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FAMILLE` ( `FAM_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `FAM_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`FAM_CODE`)) ENGINE = InnoDB;";
+    public int creerTableTypeIndividu() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`TYPE_INDIVIDU` ( TIN_CODE int(11) primary key, TIN_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -52,8 +51,8 @@ public class CTableFamille {
         return res;
     }
 
-    public int supprimerFamille() {
-        String req = "DROP TABLE IF EXISTS `FAMILLE` ;";
+    public int supprimerTypeIndividu() {
+        String req = "DROP TABLE IF EXISTS `TYPE_INDIVIDU`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -65,12 +64,19 @@ public class CTableFamille {
         return res;
     }
 
-    public int insererFamille(Famille nouveau) {
+    public int insererTypeIndividu(TypeIndividu nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `FAMILLE`(`FAM_LIBELLE`) "
+        String req = "INSERT INTO `TYPE_INDIVIDU`(`TIN_CODE`, `TIN_LIBELLE`) "
                 + "VALUES ('"
-                //+ nouveau.getFamCode() + "', '"
-                + nouveau.getFamLibelle() + "');";
+                + nouveau.getTinCodeTypeIndividu() + "', '"
+                + nouveau.getTinLibelleTypeIndividu() + "');";
+        //+ personne.getId()+"', '"
+        // + personne.getNom() + "', '"
+        //+ personne.getPrenom() + "', '"
+        //+ personne.getIdAdresse() + "', '"
+        //+ personne.getMail() + "', '"
+        //+ personne.getTelephone() + "', '"
+        //+ dateNaiss + "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -82,20 +88,20 @@ public class CTableFamille {
         return res;
     }
 
-    public int modifierFamille(Famille numero) {
+    public int modifierTypeIndividu(TypeIndividu numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `FAMILLE` SET "
-                //+ "`FAM_CODE`="
-                //+ numero.getFamCode() + ", "
-                + "`FAM_LIBELLE`='"
-                + numero.getFamLibelle()+ "' "
-                + "WHERE `FAM_CODE` = "
-                + numero.getFamCode() + ";";
+        String req = "UPDATE `TYPE_INDIVIDU` SET "
+                + "`TIN_CODE`= "
+                + numero.getTinCodeTypeIndividu() + ", "
+                + "`TIN_LIBELLE`= '"
+                + numero.getTinLibelleTypeIndividu() + "' "
+                + "WHERE `TIN_CODE`= "
+                + numero.getTinCodeTypeIndividu() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
+            System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -103,10 +109,11 @@ public class CTableFamille {
         return res;
     }
 
-    Famille convertirFamille(ResultSet rs) {
+    TypeIndividu convertirTypeIndividu(ResultSet rs) {
         try {
-            int code = rs.getInt("FAM_CODE");
-            String libelle = rs.getString("FAM_LIBELLE");
+            int tinCode = rs.getInt("TIN_CODE");
+            String tinLibelle = rs.getString("TIN_LIBELLE");
+            
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -118,9 +125,9 @@ public class CTableFamille {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Famille(code, libelle);
+            return new TypeIndividu(tinCode, tinLibelle);
         } catch (SQLException ex) {
-            Logger.getLogger(Famille.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TypeIndividu.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -144,61 +151,53 @@ public class CTableFamille {
         return null;
     }
 
-    public ListeFamille lireFamille() {
-        System.out.println("--------------------------------------------------------------");
+    public ListeTypeIndividu lireTypeIndividu() {
+        System.out.println("-------------------------------------------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Famille> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE`;");
+            ArrayList<TypeIndividu> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`TYPE_INDIVIDU`;");
             try {
                 while (rs.next()) {
-                    Famille famille = convertirFamille(rs);
-                    liste.add(famille);
+                    TypeIndividu typeIndividu = convertirTypeIndividu(rs);
+                    liste.add(typeIndividu);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeFamille listeFamille = new ListeFamille();
-            listeFamille.setLListeFamille(liste);
-            return listeFamille;
+            ListeTypeIndividu listeTypeIndividu = new ListeTypeIndividu();
+            listeTypeIndividu.setListeTypeIndividu(liste);
+            return listeTypeIndividu;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
 
-    public Famille lireUneFamille(int code) {
+    public TypeIndividu lireUnTypeIndividu(int tinCode) {
         if (bdd.connecter() == true) {
-            Famille famille = new Famille();
-            famille.setFamCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE` where `FAM_CODE`=" + code + ";");
+            TypeIndividu typeIndividu = new TypeIndividu();
+            typeIndividu.setTinCodeTypeIndividu(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`TYPE_INDIVIDU` where `TIN_CODE`=" + tinCode + ";");
             try {
                 while (rs.next()) {
-                    famille = convertirFamille(rs);
+                    typeIndividu = convertirTypeIndividu(rs);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            return famille;
+            return typeIndividu;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
-    /**
-     * titre
-     * descritpion
-     * 
-     * @param code
-     * @return 
-     */
 
-    public int supprimerFamille(Famille code) {
-        String req = "DELETE FROM FAMILLE WHERE `FAM_CODE`=" + code.getFamCode() + ";";
+    public int supprimerTypeIndividu(TypeIndividu tinCode) {
+        String req = "DELETE FROM TYPE_INDIVIDU WHERE `TIN_CODE`=" + tinCode.getTinCodeTypeIndividu() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -207,26 +206,25 @@ public class CTableFamille {
     }
 
     public static void main(String[] args) {
-        CTableFamille table = new CTableFamille();
+        CTableTypeIndividu table = new CTableTypeIndividu();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableFamille();
+        table.creerTableTypeIndividu();
 
-        Famille test = new Famille();
-        //test.setFamCode(2); //pas besoin car le code est en auto-increment 
-        test.setFamLibelle("roche");
+        TypeIndividu test = new TypeIndividu();
+        test.setTinCodeTypeIndividu(2);
+        test.setTinLibelleTypeIndividu("Break");
         
-        //table.insererFamille(test); //inserer des infos(celles de l'objet test) dans la bdd 
-        
-        //table.modifierFamille(test);
-        //System.out.println(table.lireUneFamille(1));
+        table.insererTypeIndividu(test);
+        //table.modifierTypeIndividu(test); //modifier un individu via les parametre de lobjet test
+        //table.lireTypeIndividu();
 
-        //table.supprimerFamille();
+        //table.supprimerTypeIndividu();
+        table.lireTypeIndividu().afficherTypeIndividu();//afficher toute la table typeindividu
         
-        //table.supprimerFamille(test);
-        //table.supprimerFamille();
-        
-        table.lireFamille().afficherListeFamille();
+        //System.out.println(table.lireUnTypeIndividu(1)); //affiche un objet sous forme de chaine de caractere affichant toutes les données de lindiv 1
 
+        //table.supprimerTypeIndividu();//supprimer la table type_individu dans son intégralité
+        //table.supprimerTypeIndividu(test);// supprime l'individu pour lequel son code correspond a celui de l'objet test
     }
 }

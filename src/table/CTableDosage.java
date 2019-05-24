@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeFamille;
+import Liste.ListeDosage;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,34 +13,32 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Famille;
-
-
+import entites.Dosage;
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableFamille {
-        protected CBDD bdd;
+public class CTableDosage {
+  
+   protected CBDD bdd;
 
     public CBDD getBdd() {
         return bdd;
-    }
-
-    public void setBdd(CBDD bdd) {
+}
+public void setBdd(CBDD bdd) {
         this.bdd = bdd;
     }
 
-    public CTableFamille() {
+    public CTableDosage() {
     }
 
-    public CTableFamille(CBDD bdd) {
+    public CTableDosage(CBDD bdd) {
         this.setBdd(bdd);
     }
 
-    public int creerTableFamille() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FAMILLE` ( `FAM_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `FAM_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`FAM_CODE`)) ENGINE = InnoDB;";
+    public int creerTableDosage() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`DOSAGE` ( DOS_CODE smallint(6) primary key, DOS_QUANTITE TINYINT(4) NULL, DOS_UNITE tinyint(4) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -52,8 +50,8 @@ public class CTableFamille {
         return res;
     }
 
-    public int supprimerFamille() {
-        String req = "DROP TABLE IF EXISTS `FAMILLE` ;";
+    public int supprimerDosage() {
+        String req = "DROP TABLE IF EXISTS `DOSAGE`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -65,16 +63,25 @@ public class CTableFamille {
         return res;
     }
 
-    public int insererFamille(Famille nouveau) {
+    public int insererDosage(Dosage nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `FAMILLE`(`FAM_LIBELLE`) "
+        String req = "INSERT INTO `DOSAGE`(`DOS_CODE`, `DOS_QUANTITE`, `DOS_UNITE`) "
                 + "VALUES ('"
-                //+ nouveau.getFamCode() + "', '"
-                + nouveau.getFamLibelle() + "');";
+                + nouveau.getDosCodeDosage() + "', '"
+                + nouveau.getDosQuantiteDosage() + "', '"
+                + nouveau.getDosUniteDosage() + "');";
+        //+ personne.getId()+"', '"
+        // + personne.getNom() + "', '"
+        //+ personne.getPrenom() + "', '"
+        //+ personne.getIdAdresse() + "', '"
+        //+ personne.getMail() + "', '"
+        //+ personne.getTelephone() + "', '"
+        //+ dateNaiss + "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
+            System.out.println("Le résultat à bien été inséré !");
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -82,20 +89,22 @@ public class CTableFamille {
         return res;
     }
 
-    public int modifierFamille(Famille numero) {
+    public int modifierDosage(Dosage numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `FAMILLE` SET "
-                //+ "`FAM_CODE`="
-                //+ numero.getFamCode() + ", "
-                + "`FAM_LIBELLE`='"
-                + numero.getFamLibelle()+ "' "
-                + "WHERE `FAM_CODE` = "
-                + numero.getFamCode() + ";";
+        String req = "UPDATE `DOSAGE` SET "
+                + "`DOS_CODE`="
+                + numero.getDosCodeDosage() + ", "
+                + "`DOS_QUANTITE`="
+                + numero.getDosQuantiteDosage() + ", "
+                + "`DOS_UNITE`="
+                + numero.getDosUniteDosage() + " "
+                + "WHERE `DOS_CODE`= "
+                + numero.getDosCodeDosage() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
+            System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -103,10 +112,12 @@ public class CTableFamille {
         return res;
     }
 
-    Famille convertirFamille(ResultSet rs) {
+    Dosage convertirDosage(ResultSet rs) {
         try {
-            int code = rs.getInt("FAM_CODE");
-            String libelle = rs.getString("FAM_LIBELLE");
+            int dosCode = rs.getInt("DOS_CODE");
+            int dosQuantite = rs.getInt("DOS_QUANTITE");
+            int dosUnite = rs.getInt("DOS_UNITE");
+            
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -118,9 +129,9 @@ public class CTableFamille {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Famille(code, libelle);
+            return new Dosage(dosCode, dosQuantite, dosUnite);
         } catch (SQLException ex) {
-            Logger.getLogger(Famille.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Dosage.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -144,61 +155,55 @@ public class CTableFamille {
         return null;
     }
 
-    public ListeFamille lireFamille() {
-        System.out.println("--------------------------------------------------------------");
+    public ListeDosage lireDosage() { 
+        System.out.println("-------------------------------------------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Famille> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE`;");
+            ArrayList<Dosage> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`DOSAGE`;");
             try {
                 while (rs.next()) {
-                    Famille famille = convertirFamille(rs);
-                    liste.add(famille);
+                    Dosage dosage = convertirDosage(rs);
+                   
+                    liste.add(dosage);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeFamille listeFamille = new ListeFamille();
-            listeFamille.setLListeFamille(liste);
-            return listeFamille;
+            ListeDosage listeDosage = new ListeDosage();
+            listeDosage.setListeDosage(liste);
+            return listeDosage;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
 
-    public Famille lireUneFamille(int code) {
+    public Dosage lireUnDosage(int dosCode) {
         if (bdd.connecter() == true) {
-            Famille famille = new Famille();
-            famille.setFamCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE` where `FAM_CODE`=" + code + ";");
+            Dosage dosage = new Dosage();
+            dosage.setDosCodeDosage(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`DOSAGE` where `DOS_CODE`=" + dosCode + ";");
             try {
                 while (rs.next()) {
-                    famille = convertirFamille(rs);
+                    dosage = convertirDosage(rs);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            return famille;
+            return dosage;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
-    /**
-     * titre
-     * descritpion
-     * 
-     * @param code
-     * @return 
-     */
 
-    public int supprimerFamille(Famille code) {
-        String req = "DELETE FROM FAMILLE WHERE `FAM_CODE`=" + code.getFamCode() + ";";
+    public int supprimerDosage(Dosage dosCode) {
+        String req = "DELETE FROM DOSAGE WHERE `DOS_CODE` =" + dosCode.getDosCodeDosage() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
             System.out.println("Res = " + res);
-            //System.out.println(req);
+            System.out.println(req);
             bdd.deconnecter();
         } else {
             System.out.println("Connexion KO");
@@ -207,26 +212,27 @@ public class CTableFamille {
     }
 
     public static void main(String[] args) {
-        CTableFamille table = new CTableFamille();
+        CTableDosage table = new CTableDosage();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableFamille();
+        table.creerTableDosage();
 
-        Famille test = new Famille();
-        //test.setFamCode(2); //pas besoin car le code est en auto-increment 
-        test.setFamLibelle("roche");
+        Dosage test = new Dosage();
+        test.setDosCodeDosage(1);
+        test.setDosQuantiteDosage(7);
+        test.setDosUniteDosage(5);
         
-        //table.insererFamille(test); //inserer des infos(celles de l'objet test) dans la bdd 
+        //table.modifierDosage(test);//modification dosage par les valeur de l'objet test en gardant le code qui fait reference au dosage a modifier
+        //table.lireDosage();
+        table.insererDosage(test);
+        //System.out.println(table.lireUnDosage(1));//pour convertir un dosage une objet
+        //System.out.println(table.lireUnDosage(1));//lire un dosage via son code
+        //table.supprimerDosage();
         
-        //table.modifierFamille(test);
-        //System.out.println(table.lireUneFamille(1));
-
-        //table.supprimerFamille();
+        table.lireDosage().afficherDosage();
         
-        //table.supprimerFamille(test);
-        //table.supprimerFamille();
-        
-        table.lireFamille().afficherListeFamille();
+        //table.supprimerDosage();//Supprimer la table dosage
+        //table.supprimerDosage(test);//supprimer le dosage correspondant au code dosage de l'objet test
 
     }
 }

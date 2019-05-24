@@ -5,7 +5,7 @@
  */
 package table;
 
-import Liste.ListeComposant;
+import Liste.ListeConstituer;
 import bdd.CBDD;
 import bdd.CParametresStockageBDD;
 import java.sql.ResultSet;
@@ -13,16 +13,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entites.Composant;
-
-
+import entites.Constituer;
 
 /**
  *
- * @author admin
+ * @author Jeremy
  */
-public class CTableComposant {
-    protected CBDD bdd;
+public class CTableConstituer {
+ protected CBDD bdd;
 
     public CBDD getBdd() {
         return bdd;
@@ -32,18 +30,15 @@ public class CTableComposant {
         this.bdd = bdd;
     }
 
-    public CTableComposant() {
+    public CTableConstituer() {
     }
 
-    public CTableComposant(CBDD bdd) {
+    public CTableConstituer(CBDD bdd) {
         this.setBdd(bdd);
     }
-    /**
-     * Permet de creer la requete de creation de table, de l'envoyer à phpmyadmin et de la creer avec les attribus spécifier dans cette requete.
-     * @return 
-     */
-    public int creerTableComposant() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`COMPOSANT` ( `CMP_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `CMP_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`CMP_CODE`)) ENGINE = InnoDB;";
+
+    public int creerTableConstituer() {
+        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`CONSTITUER` ( `MED_DEPOTLEGAL` INT(11) NOT NULL, `CMP_CODE` INT(11) NOT NULL AUTO_INCREMENT, `CST_UNITE` INT(11) NOT NULL, `CST_QTE` FLOAT(11) NOT NULL, PRIMARY KEY (`MED_DEPOTLEGAL`, `CMP_CODE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -54,12 +49,9 @@ public class CTableComposant {
         }
         return res;
     }
-    /**
-     * Cette méthode permet de supprimer la totalité de la table composant.
-     * @return 
-     */
-    public int supprimerTableComposant() {
-        String req = "DROP TABLE IF EXISTS `COMPOSANT`;";
+
+    public int supprimerConstituer() {
+        String req = "DROP TABLE IF EXISTS `CONSTITUER` ;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -70,17 +62,14 @@ public class CTableComposant {
         }
         return res;
     }
-    /**
-     * Cette méthode permet d'insere
-     * @param nouveau
-     * @return 
-     */
-    public int insererTableComposant(Composant nouveau) {
+
+    public int insererConstituer(Constituer nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `COMPOSANT`(`CMP_LIBELLE`) "
+        String req = "INSERT INTO `CONSTITUER`(`MED_DEPOTLEGAL`, `CST_UNITE`, `CST_QTE`) "
                 + "VALUES ('"
-                //+ nouveau.getCmpCode() + "', '"
-                + nouveau.getCmpLibelle()+ "');";
+                + nouveau.getMedDepotLegal() + "', '"
+                + nouveau.getCstUnite() + "', '"
+                + nouveau.getCstQte() + "');";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -91,18 +80,18 @@ public class CTableComposant {
         }
         return res;
     }
-    /**
-     * 
-     * @param numero
-     * @return 
-     */
-    public int modifierTableComposant(Composant numero) {
+
+    public int modifierConstituer(Constituer numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `COMPOSANT` SET "
-                //+ "`CMP_CODE`="
-                //+ numero.getCmpCode()+ ", "
-                + "`CMP_LIBELLE`='"
-                + numero.getCmpLibelle()+ "' "
+        String req = "UPDATE `CONSTITUER` SET "
+                //+ "`FAM_CODE`="
+                //+ numero.getFamCode() + ", "
+                + "`MED_DEPOTLEGAL`='"
+                + numero.getMedDepotLegal()+ "' "
+                + "`CST_UNITE`='"
+                + numero.getCstUnite()+ "' "
+                + "`CST_QTE`='"
+                + numero.getCstQte()+ "' "
                 + "WHERE `CMP_CODE` = "
                 + numero.getCmpCode() + ";";
         int res = -1;
@@ -116,15 +105,13 @@ public class CTableComposant {
         }
         return res;
     }
-/**
- * 
- * @param rs
- * @return 
- */
-    Composant convertirComposant(ResultSet rs) {
+
+    Constituer convertirConstituer(ResultSet rs) {
         try {
-            int code = rs.getInt("CMP_CODE");
-            String libelle = rs.getString("CMP_LIBELLE");
+            int medDepotLegal = rs.getInt("MED_DEPOTLEGAL");
+            int cmpCode = rs.getInt("CMP-CODE");
+            String cstCode = rs.getString("CST-CODE");
+            Float cstQte = rs.getFloat("CST_QTE");
             /*
             String id = rs.getString("id");
             String nom = rs.getString("nom");
@@ -136,16 +123,13 @@ public class CTableComposant {
              */
             //GregorianCalendar dateNaissanceGC = CUtilitaire_dateSQL_PPE.convertSQLDatetoGregCal(dateNaissance);
 
-            return new Composant(code, libelle);
+            return new Constituer(medDepotLegal, cmpCode, cstCode, cstQte);
         } catch (SQLException ex) {
-            Logger.getLogger(Composant.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Constituer.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
-    /**
-     * 
-     * @return 
-     */
+
     public Object query() {
         if (bdd.connecter() == true) {
             Object objet = new Object();
@@ -164,61 +148,57 @@ public class CTableComposant {
         }
         return null;
     }
-    /**
-     * permet de lire tous les enregistrements de la table composant de les afficher a l'aide de listecomposant qui recupere les valeurs des enregistrements
-     * @return 
-     */
-    public ListeComposant lireTableComposant() {
-         System.out.println("------------------------------------------");
+
+    public ListeConstituer lireConstituer() {
+        System.out.println("--------------------------------------------------------------");
         if (bdd.connecter() == true) {
-            ArrayList<Composant> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT`;");
+            ArrayList<Constituer> liste = new ArrayList();
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`CONSTITUER`;");
             try {
                 while (rs.next()) {
-                    Composant composant = convertirComposant(rs);
-                    liste.add(composant);
+                    Constituer constituer = convertirConstituer(rs);
+                    liste.add(constituer);
                 }
             } catch (SQLException ex) {
             }
             bdd.deconnecter();
-            ListeComposant listeComposant = new ListeComposant();
-            listeComposant.setListeComposant(liste);
-            return listeComposant;
+            ListeConstituer listeConstituer = new ListeConstituer();
+            listeConstituer.setListeConstituer(liste);
+            return listeConstituer;
+        } else {
+            System.out.println("Connexion KO");
+        }
+        return null;
+    }
+
+    public Constituer lireUneConstituer(int code) {
+        if (bdd.connecter() == true) {
+            Constituer constituer = new Constituer();
+            constituer.setMedDepotLegal(-1);
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`CONSTITUER` where `MED_DEPOTLEGAL`=" + code + ";");
+            try {
+                while (rs.next()) {
+                    constituer = convertirConstituer(rs);
+                }
+            } catch (SQLException ex) {
+            }
+            bdd.deconnecter();
+            return constituer;
         } else {
             System.out.println("Connexion KO");
         }
         return null;
     }
     /**
-     * Permet de lire un enregistrement précis, celui etant défnit par son code
+     * titre
+     * descritpion
+     * 
      * @param code
      * @return 
      */
-    public Composant lireTableComposant(int code) {
-         if (bdd.connecter() == true) {
-            Composant composant = new Composant();
-            composant.setCmpCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT` where `CMP_CODE`=" + code + ";");
-            try {
-                while (rs.next()) {
-                    composant = convertirComposant(rs);
-                }
-            } catch (SQLException ex) {
-            }
-            bdd.deconnecter();
-            return composant;
-        } else {
-            System.out.println("Connexion KO");
-        }
-        return null;
-    }
-    /**
-     * Permet de supprimer un enregistrement, l'enregistrement à supprimer est défnit par son code
-     * @param code
-     * @return 
-     */
-    public int supprimerTableComposant(Composant code) {
-        String req = "DELETE FROM `COMPOSANT` WHERE `CMP_CODE`=" + code.getCmpCode()+ ";";
+
+    public int supprimerConstituer(Constituer code) {
+        String req = "DELETE FROM CONSTITUER WHERE `MED_DEPOTLEGAL`=" + code.getMedDepotLegal() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -232,28 +212,26 @@ public class CTableComposant {
     }
 
     public static void main(String[] args) {
-        CTableComposant table = new CTableComposant();
+        CTableConstituer table = new CTableConstituer();
 
         table.setBdd(new CBDD(new CParametresStockageBDD("parametresBdd.properties")));
-        table.creerTableComposant();
-        
-        Composant test = new Composant();
-        test.setCmpCode(3);
-        test.setCmpLibelle("helicoptere");
-        
-        //table.insererTableComposant(test);
+        table.creerTableConstituer();
 
-        //table.modifierTableComposant(test);
+        Constituer test = new Constituer();
+        //test.setFamCode(2); //pas besoin car le code est en auto-increment 
+        test.setMedDepotLegal(51);
         
-        //System.out.println(table.lireTableComposant(2));
+        //table.insererConstituer(test); //inserer des infos(celles de l'objet test) dans la bdd 
         
-        //table.supprimerTableComposant();
-        //table.supprimerTableComposant(test);
-        
+        //table.modifierConstituer(test);
+        //System.out.println(table.lireUneConstituer(1));
 
-        //table.supprimerPraticien();
-        table.lireTableComposant().afficherListeComposant();
+        //table.supprimerConstituer();
+        
+        //table.supprimerConstituer(test);
+        //table.supprimerConstituer();
+        
+        table.lireConstituer().afficherListeConstituer();
 
-    } 
-    
+    }
 }

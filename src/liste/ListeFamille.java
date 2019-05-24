@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package liste;
+package Liste;
 
 import java.util.ArrayList;
 import entites.Famille;
@@ -40,7 +40,9 @@ public class ListeFamille {
 
     public void afficherListeFamille() {
         for (int i = 0; i < this.listeFamille.size(); i++) {
-            System.out.println(this.getListeFamille().get(i).famLibelle);
+            System.out.println(" Le code associé à la famille est :" + this.getListeFamille().get(i).famCode);
+            System.out.println(" Le libelle lié à la famille est :" + this.getListeFamille().get(i).famLibelle);
+            System.out.println("--------------------------------------------");
             
         }
     }
