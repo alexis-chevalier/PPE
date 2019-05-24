@@ -39,7 +39,7 @@ public void setBdd(CBDD bdd) {
     }
 
     public int creerTableTypeIndividu() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`TYPE_INDIVIDU` ( TIN_CODE int(11) primary key, TIN_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `TYPE_INDIVIDU` ( TIN_CODE int(11) primary key, TIN_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -155,7 +155,7 @@ public void setBdd(CBDD bdd) {
         System.out.println("-------------------------------------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<TypeIndividu> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`TYPE_INDIVIDU`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `TYPE_INDIVIDU`;");
             try {
                 while (rs.next()) {
                     TypeIndividu typeIndividu = convertirTypeIndividu(rs);
@@ -177,7 +177,7 @@ public void setBdd(CBDD bdd) {
         if (bdd.connecter() == true) {
             TypeIndividu typeIndividu = new TypeIndividu();
             typeIndividu.setTinCodeTypeIndividu(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`TYPE_INDIVIDU` where `TIN_CODE`=" + tinCode + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `TYPE_INDIVIDU` where `TIN_CODE`=" + tinCode + ";");
             try {
                 while (rs.next()) {
                     typeIndividu = convertirTypeIndividu(rs);

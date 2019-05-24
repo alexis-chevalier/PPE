@@ -52,7 +52,7 @@ public class CTablePraticien {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTablePraticien() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`praticien` ( `PRA_NUM_PRATICIEN` SMALLINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `PRA_CODE_PRATICIEN` TINYINT(3) NULL , `PRA_NOM_PRATICIEN` VARCHAR(25) NULL , `PRA_ADRESSE_PRATICIEN` VARCHAR(50) NULL , `PRA_CP_PRATICIEN` VARCHAR(5) NULL, `PRA_VILLE_PRATICIEN` VARCHAR(45) NULL, `PRA_COEFNOTORIETE_PRATICIEN` FLOAT NULL , `TYP_CODE_TYPE_PRATICIEN` TINYINT(3) NULL, `SPE_CODE_SPECIALITE` SMALLINT(3), PRIMARY KEY (`PRA_NUM_PRATICIEN`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `praticien` ( `PRA_NUM_PRATICIEN` SMALLINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `PRA_CODE_PRATICIEN` TINYINT(3) NULL , `PRA_NOM_PRATICIEN` VARCHAR(25) NULL , `PRA_ADRESSE_PRATICIEN` VARCHAR(50) NULL , `PRA_CP_PRATICIEN` VARCHAR(5) NULL, `PRA_VILLE_PRATICIEN` VARCHAR(45) NULL, `PRA_COEFNOTORIETE_PRATICIEN` FLOAT NULL , `TYP_CODE_TYPE_PRATICIEN` TINYINT(3) NULL, `SPE_CODE_SPECIALITE` SMALLINT(3), PRIMARY KEY (`PRA_NUM_PRATICIEN`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -125,7 +125,7 @@ public class CTablePraticien {
      */
     public int modifierPraticien(Praticien numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `ppe`.`praticien` SET "
+        String req = "UPDATE `praticien` SET "
                 + "`PRA_CODE_PRATICIEN`="
                 + numero.getCodePraticien() + ", "
                 + "`PRA_NOM_PRATICIEN`='"
@@ -208,7 +208,7 @@ public class CTablePraticien {
     public ListePraticien lirePraticien() {
         if (bdd.connecter() == true) {
             ArrayList<Praticien> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`praticien`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `praticien`;");
             try {
                 while (rs.next()) {
                     Praticien praticien = convertirPraticien(rs);
@@ -236,7 +236,7 @@ public class CTablePraticien {
     public ListePraticien lireUnPraticien(Praticien praticienALire) {
         if (bdd.connecter() == true) {
             ArrayList<Praticien> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`praticien` where `PRA_NUM_PRATICIEN`=" + praticienALire.getNumPraticien() + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `praticien` where `PRA_NUM_PRATICIEN`=" + praticienALire.getNumPraticien() + ";");
             try {
                 while (rs.next()) {
                     Praticien praticien = convertirPraticien(rs);
@@ -265,7 +265,7 @@ public class CTablePraticien {
         Praticien praticien = null;
         if (bdd.connecter() == true) {
             ArrayList<Praticien> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`praticien` where `PRA_NUM_PRATICIEN`=" + numero + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `praticien` where `PRA_NUM_PRATICIEN`=" + numero + ";");
             try {
                 while (rs.next()) {
                     praticien = convertirPraticien(rs);

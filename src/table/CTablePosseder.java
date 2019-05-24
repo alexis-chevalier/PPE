@@ -45,7 +45,7 @@ public class CTablePosseder {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTablePosseder() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`posseder` ( `PRA_NUM_PRATICIEN` SMALLINT(6) UNSIGNED NOT NULL, `SPE_CODE_SPECIALITE` SMALLINT(6) NOT NULL , `POS_DIPLOME_POSSEDER` VARCHAR(255), `POS_COEFPRESCRIPTION_POSSEDER`FLOAT, PRIMARY KEY (`PRA_NUM_PRATICIEN`, `SPE_CODE_SPECIALITE`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `posseder` ( `PRA_NUM_PRATICIEN` SMALLINT(6) UNSIGNED NOT NULL, `SPE_CODE_SPECIALITE` SMALLINT(6) NOT NULL , `POS_DIPLOME_POSSEDER` VARCHAR(255), `POS_COEFPRESCRIPTION_POSSEDER`FLOAT, PRIMARY KEY (`PRA_NUM_PRATICIEN`, `SPE_CODE_SPECIALITE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -185,7 +185,7 @@ public class CTablePosseder {
     public ListePosseder lirePosseder() {
         if (bdd.connecter() == true) {
             ArrayList<Posseder> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`posseder`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `posseder`;");
             try {
                 while (rs.next()) {
                     Posseder posseder = convertirPosseder(rs);
@@ -213,7 +213,7 @@ public class CTablePosseder {
     public ListePosseder lireUnPosseder(int praNum, int speCode) {
         if (bdd.connecter() == true) {
             ArrayList<Posseder> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`posseder` where `PRA_NUM_PRATICIEN`=" + praNum + " AND `SPE_CODE_SPECIALITE`=" + speCode + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `posseder` where `PRA_NUM_PRATICIEN`=" + praNum + " AND `SPE_CODE_SPECIALITE`=" + speCode + ";");
             try {
                 while (rs.next()) {
                     Posseder posseder = convertirPosseder(rs);
@@ -240,7 +240,7 @@ public class CTablePosseder {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int supprimerUnPosseder(Posseder posseder) {
-        String req = "DELETE FROM `ppe`.`posseder` WHERE PRA_NUM_PRATICIEN=" + posseder.getNumPraticien() + " AND `SPE_CODE_SPECIALITE`=" + posseder.getCodeSpecialite() + ";";
+        String req = "DELETE FROM `posseder` WHERE PRA_NUM_PRATICIEN=" + posseder.getNumPraticien() + " AND `SPE_CODE_SPECIALITE`=" + posseder.getCodeSpecialite() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);

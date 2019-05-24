@@ -45,7 +45,7 @@ public class CTableInviter {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTableInviter() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`INVITER` ( `AC_NUM_ACTVITE_COMPL` TINYINT(3) UNSIGNED NOT NULL, `PRA_NUM_PRATICIEN` TINYINT(3) NOT NULL, `SPECIALISTEON` VARCHAR(20) NULL, PRIMARY KEY (`AC_NUM_ACTVITE_COMPL`, `PRA_NUM_PRATICIEN`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `INVITER` ( `AC_NUM_ACTVITE_COMPL` TINYINT(3) UNSIGNED NOT NULL, `PRA_NUM_PRATICIEN` TINYINT(3) NOT NULL, `SPECIALISTEON` VARCHAR(20) NULL, PRIMARY KEY (`AC_NUM_ACTVITE_COMPL`, `PRA_NUM_PRATICIEN`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -112,7 +112,7 @@ public class CTableInviter {
      */
     public int modifierInviter(Inviter numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "UPDATE `ppe`.`INVITER` SET "
+        String req = "UPDATE `INVITER` SET "
                 + "`AC_NUM_ACTVITE_COMPL`="
                 + numero.getNumActiviteCompl() + ", "
                 + "`PRA_NUM_PRATICIEN`="
@@ -180,7 +180,7 @@ public class CTableInviter {
     public ListeInviter lireInviter() {
         if (bdd.connecter() == true) {
             ArrayList<Inviter> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`INVITER`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `INVITER`;");
             try {
                 while (rs.next()) {
                     Inviter inviter = convertirInviter(rs);
@@ -208,7 +208,7 @@ public class CTableInviter {
         if (bdd.connecter() == true) {
             Inviter inviter = new Inviter();
             inviter.setNumActiviteCompl(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`INVITER` WHERE `AC_NUM_ACTVITE_COMPL`=" + invitation.getNumActiviteCompl() + " AND `PRA_NUM_PRATICIEN`=" + invitation.getNumPraticien() + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `INVITER` WHERE `AC_NUM_ACTVITE_COMPL`=" + invitation.getNumActiviteCompl() + " AND `PRA_NUM_PRATICIEN`=" + invitation.getNumPraticien() + ";");
             try {
                 while (rs.next()) {
                     inviter = convertirInviter(rs);

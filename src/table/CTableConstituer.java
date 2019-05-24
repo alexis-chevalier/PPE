@@ -38,7 +38,7 @@ public class CTableConstituer {
     }
 
     public int creerTableConstituer() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`CONSTITUER` ( `MED_DEPOTLEGAL` INT(11) NOT NULL, `CMP_CODE` INT(11) NOT NULL AUTO_INCREMENT, `CST_UNITE` INT(11) NOT NULL, `CST_QTE` FLOAT(11) NOT NULL, PRIMARY KEY (`MED_DEPOTLEGAL`, `CMP_CODE`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `CONSTITUER` ( `MED_DEPOTLEGAL` INT(11) NOT NULL, `CMP_CODE` INT(11) NOT NULL AUTO_INCREMENT, `CST_UNITE` INT(11) NOT NULL, `CST_QTE` FLOAT(11) NOT NULL, PRIMARY KEY (`MED_DEPOTLEGAL`, `CMP_CODE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -153,7 +153,7 @@ public class CTableConstituer {
         System.out.println("--------------------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Constituer> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`CONSTITUER`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `CONSTITUER`;");
             try {
                 while (rs.next()) {
                     Constituer constituer = convertirConstituer(rs);
@@ -175,7 +175,7 @@ public class CTableConstituer {
         if (bdd.connecter() == true) {
             Constituer constituer = new Constituer();
             constituer.setMedDepotLegal(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`CONSTITUER` where `MED_DEPOTLEGAL`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `CONSTITUER` where `MED_DEPOTLEGAL`=" + code + ";");
             try {
                 while (rs.next()) {
                     constituer = convertirConstituer(rs);

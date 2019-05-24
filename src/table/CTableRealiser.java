@@ -45,7 +45,7 @@ public class CTableRealiser {
      * @return int , elle retourne "-1" s'il y a une erreur.
      */
     public int creerTableRealiser() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`realiser` ( `VIS_MATRICULE_VISITEUR` SMALLINT(3) UNSIGNED NOT NULL, `AC_NUM_ACTIVITE_COMPL` TINYINT(3) NOT NULL, PRIMARY KEY (`VIS_MATRICULE_VISITEUR`, `AC_NUM_ACTIVITE_COMPL`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `realiser` ( `VIS_MATRICULE_VISITEUR` SMALLINT(3) UNSIGNED NOT NULL, `AC_NUM_ACTIVITE_COMPL` TINYINT(3) NOT NULL, PRIMARY KEY (`VIS_MATRICULE_VISITEUR`, `AC_NUM_ACTIVITE_COMPL`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -109,7 +109,7 @@ public class CTableRealiser {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int modifierRealiser(Realiser identifiant) {
-        String req = "UPDATE `ppe`.`realiser` SET "
+        String req = "UPDATE `realiser` SET "
                 + "`VIS_MATRICULE_VISITEUR`="
                 + identifiant.getVisMatriculeVisteur() + ", "
                 + "`AC_NUM_ACTIVITE_COMPL`="
@@ -171,7 +171,7 @@ public class CTableRealiser {
     public ListeRealiser lireRealiser() {
         if (bdd.connecter() == true) {
             ArrayList<Realiser> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`realiser`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `realiser`;");
             try {
                 while (rs.next()) {
                     Realiser realiser = convertirRealiser(rs);
@@ -200,7 +200,7 @@ public class CTableRealiser {
     public ListeRealiser lireUnRealiser(Realiser realisation) {
         if (bdd.connecter() == true) {
             ArrayList<Realiser> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`realiser` where `VIS_MATRICULE_VISITEUR`=" + realisation.getVisMatriculeVisteur() + " AND `AC_NUM_ACTIVITE_COMPL`=" + realisation.getNumActiviteCompl() + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `realiser` where `VIS_MATRICULE_VISITEUR`=" + realisation.getVisMatriculeVisteur() + " AND `AC_NUM_ACTIVITE_COMPL`=" + realisation.getNumActiviteCompl() + ";");
             try {
                 while (rs.next()) {
                     Realiser realiser = convertirRealiser(rs);
@@ -226,7 +226,7 @@ public class CTableRealiser {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int supprimerRealiser(Realiser realisation) {
-        String req = "DELETE FROM `ppe`.`realiser` where `VIS_MATRICULE_VISITEUR`=" + realisation.getVisMatriculeVisteur() + " AND `AC_NUM_ACTIVITE_COMPL`=" + realisation.getNumActiviteCompl() + ";";
+        String req = "DELETE FROM `realiser` where `VIS_MATRICULE_VISITEUR`=" + realisation.getVisMatriculeVisteur() + " AND `AC_NUM_ACTIVITE_COMPL`=" + realisation.getNumActiviteCompl() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);

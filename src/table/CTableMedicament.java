@@ -44,7 +44,7 @@ public class CTableMedicament {
     }
 
     public int creerTableMedicament() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`medicament` ( MED_DEPOTLEGAL int(11) primary key, MED_NOMCOMMERCIAL varchar(30) NULL, MED_COMPOSITION varchar(30) NULL, MED_EFFETS varchar(30) NULL, MED_CONTREINDIC varchar(30) NULL, MED_PRIXECHANTILLON float NULL) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `medicament` ( MED_DEPOTLEGAL int(11) primary key, MED_NOMCOMMERCIAL varchar(30) NULL, MED_COMPOSITION varchar(30) NULL, MED_EFFETS varchar(30) NULL, MED_CONTREINDIC varchar(30) NULL, MED_PRIXECHANTILLON float NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -175,7 +175,7 @@ public class CTableMedicament {
         System.out.println("------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Medicament> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`medicament`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `medicament`;");
             try {
                 while (rs.next()) {
                     Medicament medicament = convertirMedicament(rs);
@@ -197,7 +197,7 @@ public class CTableMedicament {
         if (bdd.connecter() == true) {
             Medicament medicament = new Medicament();
             medicament.setDepotLegalMedicament(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`medicament` where `MED_DEPOTLEGAL`=" + depotLegal + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `medicament` where `MED_DEPOTLEGAL`=" + depotLegal + ";");
             try {
                 while (rs.next()) {
                     medicament = convertirMedicament(rs);

@@ -41,7 +41,7 @@ public class CTableFormuler {
      * @return 
      */
     public int creerTableFormuler() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FORMULER` ( `PRE_CODE` TINYINT(4) UNSIGNED NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, PRIMARY KEY (`PRE_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `FORMULER` ( `PRE_CODE` TINYINT(4) UNSIGNED NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, PRIMARY KEY (`PRE_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
         String req2 = "ALTER TABLE FORMULER\\n\"\n" +
 "                + \"  ADD CONSTRAINT FK_FORMULER_TIN_CODE FOREIGN KEY (TIN_CODE) REFERENCES TYPE_INDIVIDU (TIN_CODE),\\n\"\n" +
 "                 + \"  ADD CONSTRAINT FK_FORMULER_DOS_CODE FOREIGN KEY (DOS_CODE) REFERENCES dosage (DOS_CODE),\\n\"\n" +
@@ -176,7 +176,7 @@ public class CTableFormuler {
          System.out.println("------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Formuler> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FORMULER`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `FORMULER`;");
             try {
                 while (rs.next()) {
                     Formuler formuler = convertirFormuler(rs);
@@ -202,7 +202,7 @@ public class CTableFormuler {
          if (bdd.connecter() == true) {
             Formuler formuler = new Formuler();
             formuler.setPreCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`Formuler` where `PRE_CODE`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `Formuler` where `PRE_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
                     formuler = convertirFormuler(rs);

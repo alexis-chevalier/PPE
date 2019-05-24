@@ -41,7 +41,7 @@ public class CTablePrescrire {
      * @return 
      */
     public int creerTablePrescrire() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`PRESCRIRE` ( `TIN_CODE` TINYINT(4) UNSIGNED NOT NULL, `DOS_CODE` TINYINT(4) NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, `PRE_POSOLOGIE` TINYINT(4) NULL, PRIMARY KEY (`TIN_CODE`, `DOS_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `PRESCRIRE` ( `TIN_CODE` TINYINT(4) UNSIGNED NOT NULL, `DOS_CODE` TINYINT(4) NOT NULL, `MED_DEPOTLEGAL` INT(11) NOT NULL, `PRE_POSOLOGIE` TINYINT(4) NULL, PRIMARY KEY (`TIN_CODE`, `DOS_CODE`, `MED_DEPOTLEGAL`)) ENGINE = InnoDB;";
         String req2 = "ALTER TABLE PRESCRIRE\\n\"\n" +
 "                + \"  ADD CONSTRAINT FK_PRESCRIRE_TIN_CODE FOREIGN KEY (TIN_CODE) REFERENCES TYPE_INDIVIDU (TIN_CODE),\\n\"\n" +
 "                 + \"  ADD CONSTRAINT FK_PRESCRIRE_DOS_CODE FOREIGN KEY (DOS_CODE) REFERENCES dosage (DOS_CODE),\\n\"\n" +
@@ -177,7 +177,7 @@ public class CTablePrescrire {
          System.out.println("------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Prescrire> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`PRESCRIRE`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `PRESCRIRE`;");
             try {
                 while (rs.next()) {
                     Prescrire prescrire = convertirPrescrire(rs);
@@ -203,7 +203,7 @@ public class CTablePrescrire {
          if (bdd.connecter() == true) {
             Prescrire prescrire = new Prescrire();
             prescrire.setTinCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`PRESCRIRE` where `CMP_CODE`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `PRESCRIRE` where `CMP_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
                     prescrire = convertirPrescrire(rs);

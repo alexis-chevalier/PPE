@@ -50,7 +50,7 @@ public class CTableActiviteCompl {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTableActiviteCompl() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`activite_compl` ( `AC_NUM_ACTIVITE_COMPL` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT , `AC_DATE_ACTIVITE_COMPL` DATE NULL , `AC_LIEU_ACTIVITE_COMPL` VARCHAR(50) NULL , `AC_THEME_ACTIVITE_COMPL` VARCHAR(50) NULL, PRIMARY KEY (`AC_NUM_ACTIVITE_COMPL`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `activite_compl` ( `AC_NUM_ACTIVITE_COMPL` SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT , `AC_DATE_ACTIVITE_COMPL` DATE NULL , `AC_LIEU_ACTIVITE_COMPL` VARCHAR(50) NULL , `AC_THEME_ACTIVITE_COMPL` VARCHAR(50) NULL, PRIMARY KEY (`AC_NUM_ACTIVITE_COMPL`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -192,7 +192,7 @@ public class CTableActiviteCompl {
     public ListeActiviteCompl lireActiviteCompl() {
         if (bdd.connecter() == true) {
             ArrayList<ActiviteCompl> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`activite_compl`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `activite_compl`;");
             try {
                 while (rs.next()) {
                     ActiviteCompl activiteComplementaire = convertirActiviteCompl(rs);
@@ -221,7 +221,7 @@ public class CTableActiviteCompl {
         if (bdd.connecter() == true) {
             ActiviteCompl activiteComplementaire = new ActiviteCompl();
             activiteComplementaire.setNumActiviteCompl(num);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`activite_compl` where `AC_NUM_ACTIVITE_COMPL`=" + num + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `activite_compl` where `AC_NUM_ACTIVITE_COMPL`=" + num + ";");
             try {
                 while (rs.next()) {
                     activiteComplementaire = convertirActiviteCompl(rs);
@@ -245,7 +245,7 @@ public class CTableActiviteCompl {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int supprimerUneActiviteCompl(ActiviteCompl numero) {
-        String req = "DELETE FROM `ppe`.`activite_compl` WHERE `AC_NUM_ACTIVITE_COMPL`=" + numero.getNumActiviteCompl() + ";";
+        String req = "DELETE FROM `activite_compl` WHERE `AC_NUM_ACTIVITE_COMPL`=" + numero.getNumActiviteCompl() + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);

@@ -38,7 +38,7 @@ public void setBdd(CBDD bdd) {
     }
 
     public int creerTableDosage() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`DOSAGE` ( DOS_CODE smallint(6) primary key, DOS_QUANTITE TINYINT(4) NULL, DOS_UNITE tinyint(4) NULL) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `DOSAGE` ( DOS_CODE smallint(6) primary key, DOS_QUANTITE TINYINT(4) NULL, DOS_UNITE tinyint(4) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -159,7 +159,7 @@ public void setBdd(CBDD bdd) {
         System.out.println("-------------------------------------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Dosage> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`DOSAGE`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `DOSAGE`;");
             try {
                 while (rs.next()) {
                     Dosage dosage = convertirDosage(rs);
@@ -182,7 +182,7 @@ public void setBdd(CBDD bdd) {
         if (bdd.connecter() == true) {
             Dosage dosage = new Dosage();
             dosage.setDosCodeDosage(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`DOSAGE` where `DOS_CODE`=" + dosCode + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `DOSAGE` where `DOS_CODE`=" + dosCode + ";");
             try {
                 while (rs.next()) {
                     dosage = convertirDosage(rs);

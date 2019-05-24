@@ -46,7 +46,7 @@ public class CTableTypePraticien {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTableTypePraticien() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`type_praticien` ( `TYP_CODE_TYPE_PRATICIEN` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `TYP_LIBELLE_TYPE_PRATICIEN` VARCHAR(20) NULL, `TYP_LIEU_TYPE_PRATICIEN` VARCHAR(20) NULL, PRIMARY KEY (`TYP_CODE_TYPE_PRATICIEN`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `type_praticien` ( `TYP_CODE_TYPE_PRATICIEN` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `TYP_LIBELLE_TYPE_PRATICIEN` VARCHAR(20) NULL, `TYP_LIEU_TYPE_PRATICIEN` VARCHAR(20) NULL, PRIMARY KEY (`TYP_CODE_TYPE_PRATICIEN`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -180,7 +180,7 @@ public class CTableTypePraticien {
     public ListeTypePraticien lireTypePraticien() {
         if (bdd.connecter() == true) {
             ArrayList<TypePraticien> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`type_praticien`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `type_praticien`;");
             try {
                 while (rs.next()) {
                     TypePraticien typePraticien = convertirTypePraticien(rs);
@@ -209,7 +209,7 @@ public class CTableTypePraticien {
         if (bdd.connecter() == true) {
             TypePraticien typePraticien = new TypePraticien();
             typePraticien.setCodeTypePraticien(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`type_praticien` where `TYP_CODE_TYPE_PRATICIEN`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `type_praticien` where `TYP_CODE_TYPE_PRATICIEN`=" + code + ";");
             try {
                 while (rs.next()) {
                     typePraticien = convertirTypePraticien(rs);

@@ -162,7 +162,7 @@ public class CTableTypeFrais {
         if (bdd.connecter() == true) {
             System.out.println("Connexion OK");
             ArrayList<TypeFrais> listeTypeFrais= new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT*FROM inclure WHERE `TF_CODE` = '" 
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM inclure WHERE `TF_CODE` = '" 
                     + code
                     + "' ;");
             try {

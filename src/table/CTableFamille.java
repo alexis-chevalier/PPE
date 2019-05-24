@@ -40,7 +40,7 @@ public class CTableFamille {
     }
 
     public int creerTableFamille() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`FAMILLE` ( `FAM_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `FAM_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`FAM_CODE`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `FAMILLE` ( `FAM_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `FAM_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`FAM_CODE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -148,7 +148,7 @@ public class CTableFamille {
         System.out.println("--------------------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Famille> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `FAMILLE`;");
             try {
                 while (rs.next()) {
                     Famille famille = convertirFamille(rs);
@@ -170,7 +170,7 @@ public class CTableFamille {
         if (bdd.connecter() == true) {
             Famille famille = new Famille();
             famille.setFamCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`FAMILLE` where `FAM_CODE`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `FAMILLE` where `FAM_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
                     famille = convertirFamille(rs);

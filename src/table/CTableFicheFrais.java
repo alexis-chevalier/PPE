@@ -206,7 +206,7 @@ public class CTableFicheFrais {
         if (bdd.connecter() == true) {
             System.out.println("Connexion OK");
             ArrayList<FicheFrais> listeFicheFrais = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT*FROM inclure WHERE `FF_MOIS` = '" 
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM inclure WHERE `FF_MOIS` = '" 
                     + mois
                     + "' AND `VIS_MATRICULE` = '" 
                     + matricule

@@ -45,7 +45,7 @@ public class CTableSpecialite {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int creerTableSpecialite() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe`.`specialite` ( `SPE_CODE_SPECIALITE` SMALLINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `SPE_LIBELLE_SPECIALITE` VARCHAR(50) NULL , PRIMARY KEY (`SPE_CODE_SPECIALITE`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `specialite` ( `SPE_CODE_SPECIALITE` SMALLINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `SPE_LIBELLE_SPECIALITE` VARCHAR(50) NULL , PRIMARY KEY (`SPE_CODE_SPECIALITE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -65,7 +65,7 @@ public class CTableSpecialite {
      * @return int , retourne "-1" s'il y a une erreur.
      */
     public int supprimerSpecialite() {
-        String req = "DROP TABLE IF EXISTS `ppe`.`specialite`;";
+        String req = "DROP TABLE IF EXISTS `specialite`;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -87,7 +87,7 @@ public class CTableSpecialite {
      */
     public int insererSpecialite(Specialite nouveau) {
         //Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
-        String req = "INSERT INTO `ppe`.`specialite`(`SPE_CODE_SPECIALITE`, `SPE_LIBELLE_SPECIALITE`) "
+        String req = "INSERT INTO `specialite`(`SPE_CODE_SPECIALITE`, `SPE_LIBELLE_SPECIALITE`) "
                 + "VALUES ('"
                 + nouveau.getCodeSpecialite() + "', '"
                 + nouveau.getLibelleSpecialite() + "');";
@@ -114,7 +114,7 @@ public class CTableSpecialite {
     public int modifierSpecialite(Specialite numero) {
         // Date dateNaiss = new Date(personne.getDateNaissance().getTimeInMillis());
 
-        String req = "UPDATE `ppe`.`specialite` SET "
+        String req = "UPDATE `specialite` SET "
                 + "`SPE_LIBELLE_SPECIALITE`='"
                 + numero.getLibelleSpecialite() + "', "
                 + "WHERE `SPE_CODE_SPECIALITE`="
@@ -188,7 +188,7 @@ public class CTableSpecialite {
     public ListeSpecialite lireSpecialite() {
         if (bdd.connecter() == true) {
             ArrayList<Specialite> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`specialite`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `specialite`;");
             try {
                 while (rs.next()) {
                     Specialite specialite = ConvertirSpecialite(rs);
@@ -217,7 +217,7 @@ public class CTableSpecialite {
         if (bdd.connecter() == true) {
             Specialite possederSpecialite = new Specialite();
             possederSpecialite.setCodeSpecialite(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe`.`specialite` where `SPE_CODE_SPECIALITE`=" + num + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `specialite` where `SPE_CODE_SPECIALITE`=" + num + ";");
             try {
                 while (rs.next()) {
                     possederSpecialite = ConvertirSpecialite(rs);
@@ -241,7 +241,7 @@ public class CTableSpecialite {
      * détectée.
      */
     public int supprimerSpecialite(int code) {
-        String req = "DELETE FROM `ppe`.`specialite` WHERE `SPE_CODE_SPECIALITE`=" + code + ";";
+        String req = "DELETE FROM `specialite` WHERE `SPE_CODE_SPECIALITE`=" + code + ";";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);

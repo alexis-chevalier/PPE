@@ -37,7 +37,7 @@ public void setBdd(CBDD bdd) {
     }
 
     public int creerTablePresentation() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`presentation` ( PRE_CODE int(11) primary key, PRE_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `presentation` ( PRE_CODE int(11) primary key, PRE_LIBELLE varchar(30) NULL) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -154,7 +154,7 @@ public void setBdd(CBDD bdd) {
         System.out.println("--------------------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Presentation> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`presentation`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `presentation`;");
             try {
                 while (rs.next()) {
                     Presentation presentation = convertirPresentation(rs);
@@ -176,7 +176,7 @@ public void setBdd(CBDD bdd) {
         if (bdd.connecter() == true) {
             Presentation presentation = new Presentation();
             presentation.setPreCodePresentation(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`presentation` where `PRE_CODE`=" + preCode + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `presentation` where `PRE_CODE`=" + preCode + ";");
             try {
                 while (rs.next()) {
                     presentation = convertirPresentation(rs);

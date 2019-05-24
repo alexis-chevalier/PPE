@@ -43,7 +43,7 @@ public class CTableComposant {
      * @return 
      */
     public int creerTableComposant() {
-        String req = "CREATE TABLE IF NOT EXISTS `ppe2`.`COMPOSANT` ( `CMP_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `CMP_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`CMP_CODE`)) ENGINE = InnoDB;";
+        String req = "CREATE TABLE IF NOT EXISTS `COMPOSANT` ( `CMP_CODE` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT , `CMP_LIBELLE` VARCHAR(20) NULL, PRIMARY KEY (`CMP_CODE`)) ENGINE = InnoDB;";
         int res = -1;
         if (bdd.connecter() == true) {
             res = bdd.executerRequeteUpdate(req);
@@ -172,7 +172,7 @@ public class CTableComposant {
          System.out.println("------------------------------------------");
         if (bdd.connecter() == true) {
             ArrayList<Composant> liste = new ArrayList();
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT`;");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `COMPOSANT`;");
             try {
                 while (rs.next()) {
                     Composant composant = convertirComposant(rs);
@@ -198,7 +198,7 @@ public class CTableComposant {
          if (bdd.connecter() == true) {
             Composant composant = new Composant();
             composant.setCmpCode(-1);
-            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `ppe2`.`COMPOSANT` where `CMP_CODE`=" + code + ";");
+            ResultSet rs = bdd.executerRequeteQuery("SELECT * FROM `COMPOSANT` where `CMP_CODE`=" + code + ";");
             try {
                 while (rs.next()) {
                     composant = convertirComposant(rs);
